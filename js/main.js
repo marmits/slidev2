@@ -1,8 +1,8 @@
 let Slide = function(){
 
-	this.elems = document.querySelectorAll('#main div');
-	this.gotopageButtons = document.querySelectorAll('.navigation ul li');
-	this.nbElements = this.elems.length;
+    this.elems = document.querySelectorAll('#main div');
+    this.gotopageButtons = document.querySelectorAll('.navigation ul li');
+    this.nbElements = this.elems.length;
     this.oPageInfo = {
         page:null,
         title: null,
