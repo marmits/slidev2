@@ -44,7 +44,7 @@ let Slide = function(){
                 if (element.classList.contains("hidden")){
                     element.classList.remove("hidden");
                 }
-            } else {
+            }else{
                 if (!element.classList.contains("hidden")){
                     element.classList.add("hidden");
                 }
@@ -92,19 +92,19 @@ let Slide = function(){
 
         if(request === null){     
             switch(depart){
-            case depart === undefined :
-                depart = 0;
-                break;
-            case depart > that.nbElements : 
-                depart = that.nbElements - 1;
-                break;
-            default :
-                if (isNaN(depart)){
+                case depart === undefined :
                     depart = 0;
-                }
+                break;
+                case depart > that.nbElements : 
+                    depart = that.nbElements - 1;
+                break;
+                default :
+                    if (isNaN(depart)){
+                        depart = 0;
+                    }
                 break;
             }
-        } else {
+        }else{
             depart = request;
         }
 
