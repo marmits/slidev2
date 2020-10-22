@@ -89,12 +89,19 @@ let Slide = function(){
             that.setElementVisibility(that.elems[i], false);
         }
         that.setElementVisibility(that.elems[element], true);
+        
+        
         if(element === 0){
             that.setElementVisibility(that.gotopageButtons[0], false);
+        } else {
+            that.gotopageButtons[0].setAttribute("href",that.elems[element-1].getAttribute("url"));
         }
         if(element === (that.nbElements - 1)){
             that.setElementVisibility(that.gotopageButtons[1], false);
+        } else {
+            that.gotopageButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
         }
+        
     };
 
     this.init = function(depart){
