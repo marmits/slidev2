@@ -18,22 +18,22 @@ let Slide = function(){
             pageRequest = searchParams.get("request").split("/")[2];        
         }
         let page = null;
-        for (var i = 0, l = that.elems.length; i < l; i++) {
-            if(pageRequest === that.elems[i].getAttribute("url")){
-                page = i;
+        for (var element = 0, l = that.elems.length; element < l; element++) {
+            if(pageRequest === that.elems[element].getAttribute("url")){
+                page = element;
             }
         };
         return page;
     };
 
-    this.setDatas = function(compteur){
+    this.setDatas = function(element){
         let that = this;
-        let titleSlide = that.elems[compteur].getAttribute("title");
-        let urlSlide = that.elems[compteur].getAttribute("url");           
+        let titleSlide = that.elems[element].getAttribute("title");
+        let urlSlide = that.elems[element].getAttribute("url");           
 
         that.oPageInfo.title = titreSite + " - " + titleSlide;
         that.oPageInfo.url = urlSlide;
-        that.oPageInfo.page=compteur;
+        that.oPageInfo.page=element;
 
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
