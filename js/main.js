@@ -52,7 +52,7 @@ let Slide = function(){
         }
     };
 
-    this.bindButton = function(Elements, compteur){
+    this.bindButton = function(compteur){
         let that = this;
         that.gotopageButtons.forEach(function(button){
             button.addEventListener('click', function(){
@@ -110,7 +110,7 @@ let Slide = function(){
 
         that.setDatas(depart);
         that.display(depart);
-        that.bindButton(that.elems, depart);    	
+        that.bindButton(depart);    	
     };
 
 };
