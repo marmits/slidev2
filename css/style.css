@@ -1,0 +1,41 @@
+body {
+  line-height: 1;
+  font-color: #FFF;
+  background-color: #000; }
+
+div#main {
+  position: relative;
+  text-align: center;
+  width: calc(100% - 10em);
+  margin: 5em; }
+
+div.rect {
+  position: relative;
+  width: 50%;
+  height: 200px;
+  background-color: grey;
+  margin: 0 auto; }
+  div.rect:nth-child(1) {
+    background-color: #CCC; }
+  div.rect:nth-child(2) {
+    background-color: #899; }
+  div.rect:nth-child(3) {
+    background-color: #AAA; }
+  div.rect:nth-child(4) {
+    background-color: #CC8; }
+  div.rect.hidden {
+    display: none; }
+
+div.navigation {
+  width: 75%;
+  margin: 0 auto; }
+  div.navigation ul li {
+    display: inline-block;
+    color: #FFF;
+    cursor: pointer; }
+    div.navigation ul li.hidden {
+      display: none; }
+    div.navigation ul li:first-child {
+      float: left; }
+    div.navigation ul li:last-child {
+      float: right; }
