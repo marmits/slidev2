@@ -38,7 +38,7 @@ let Slide = function(){
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
-	this.setElementVisibility = function(element,visible){
+    this.setElementVisibility = function(element,visible){
         if(typeof visible === "boolean" && element instanceof HTMLElement){
             if(visible === true){
                 if (element.classList.contains("hidden")){
