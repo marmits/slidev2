@@ -38,6 +38,15 @@ let Slide = function(){
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
+    this.navHistory = function(){
+        let that = this;
+        window.onpopstate=function (oEvent){
+            if(window.history.state !== null){
+                that.display(window.history.state.page); 
+            }
+        };
+    }
+
     this.setElementVisibility = function(element,visible){
         if(typeof visible === "boolean" && element instanceof HTMLElement){
             if(visible === true){
@@ -110,7 +119,8 @@ let Slide = function(){
 
         that.setDatas(depart);
         that.display(depart);
-        that.bindButton(depart);    	
+        that.bindButton(depart);
+        that.navHistory();    	
     };
 
 };
@@ -120,11 +130,6 @@ const titreSite = document.title;
 const slideLuiggi = new Slide();
 if(slideLuiggi !== undefined){
     window.addEventListener ? addEventListener("load", slideLuiggi.init(), false) : window.attachEvent ? attachEvent("onload", slideLuiggi.init()) : (onload = slideLuiggi.init());
-    window.onpopstate= function (oEvent){
-        if(window.history.state !== null){
-            slideLuiggi.display(window.history.state.page); 
-        }
-    };
 }
 
 
