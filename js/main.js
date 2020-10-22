@@ -27,17 +27,16 @@ let Slide = function(){
     };
 
     this.setDatas = function(compteur){
-        let that = this;
-        
-            let titleSlide = that.elems[compteur].getAttribute("title");
-            let urlSlide = that.elems[compteur].getAttribute("url");           
 
-            that.oPageInfo.title = titreSite + " - " + titleSlide;
-            that.oPageInfo.url = urlSlide;
-            that.oPageInfo.page=compteur;
-            
-            history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
-        
+        let that = this;
+        let titleSlide = that.elems[compteur].getAttribute("title");
+        let urlSlide = that.elems[compteur].getAttribute("url");           
+
+        that.oPageInfo.title = titreSite + " - " + titleSlide;
+        that.oPageInfo.url = urlSlide;
+        that.oPageInfo.page=compteur;
+
+        history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
 	this.setElementVisibility = function(element,visible) {
@@ -56,45 +55,41 @@ let Slide = function(){
     };
 
     this.bindButton = function(Elements, compteur){
-    	let that = this;
-    	//let compteur = 0
-    	let sens = null;
+
+        let that = this;
         that.gotopageButtons.forEach(function(button) {
             button.addEventListener('click', function(){
-            	if((button.getAttribute("class") === "prev") && (compteur !== 0)){
-            		compteur--;
-            		sens = "down";
-            	} 
-            	if((button.getAttribute("class") === "next") && (compteur !== (that.nbElements - 1))){
-            		compteur++;
-            		sens = "up";
-            	} 
-            	that.setDatas(compteur);                
-            	that.display(compteur);            	
+                if((button.getAttribute("class") === "prev") && (compteur !== 0)){
+                    compteur--;
+                } 
+                if((button.getAttribute("class") === "next") && (compteur !== (that.nbElements - 1))){
+                    compteur++;
+                } 
+                that.setDatas(compteur);                
+                that.display(compteur);            	
             });
         });
     };
 
     this.display = function(element)
     {
-	   
+
         let that = this;
         document.title = window.history.state.title;       
-	   
-	   	that.setElementVisibility(that.gotopageButtons[0], true);
-	   	that.setElementVisibility(that.gotopageButtons[1], true);
 
-			for (var i = 0, l = that.nbElements; i < l; i++) {
-				that.setElementVisibility(that.elems[i], false);
-			}
-			that.setElementVisibility(that.elems[element], true);
-			if(element === 0){
-				that.setElementVisibility(that.gotopageButtons[0], false);
-			}
-			if(element === (that.nbElements - 1)){
-				that.setElementVisibility(that.gotopageButtons[1], false);
-			}
+        that.setElementVisibility(that.gotopageButtons[0], true);
+        that.setElementVisibility(that.gotopageButtons[1], true);
 
+        for (var i = 0, l = that.nbElements; i < l; i++) {
+            that.setElementVisibility(that.elems[i], false);
+        }
+        that.setElementVisibility(that.elems[element], true);
+        if(element === 0){
+            that.setElementVisibility(that.gotopageButtons[0], false);
+        }
+        if(element === (that.nbElements - 1)){
+            that.setElementVisibility(that.gotopageButtons[1], false);
+        }
     };
 
     this.init = function(depart)
@@ -123,8 +118,8 @@ let Slide = function(){
         that.setDatas(depart);
         that.display(depart);
         that.bindButton(that.elems, depart);    	
-
     };
+
 };
 
 
