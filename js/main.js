@@ -88,8 +88,8 @@ let Slide = function(){
         for (var i = 0, l = that.nbElements; i < l; i++){
             that.setElementVisibility(that.elems[i], false);
         }
+
         that.setElementVisibility(that.elems[element], true);
-        
         
         if(element === 0){
             that.setElementVisibility(that.gotopageButtons[0], false);
@@ -101,7 +101,6 @@ let Slide = function(){
         } else {
             that.gotopageButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
         }
-        
     };
 
     this.init = function(depart){
