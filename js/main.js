@@ -1,5 +1,5 @@
 let Slide = function(){
-    
+
 	this.elems = document.querySelectorAll('#main div');
 	this.gotopageButtons = document.querySelectorAll('.navigation ul li');
 	this.nbElements = this.elems.length;
@@ -24,14 +24,13 @@ let Slide = function(){
             }
         };
         return page;
-    }
+    };
 
     this.setDatas = function(compteur){
         let that = this;
         
             let titleSlide = that.elems[compteur].getAttribute("title");
-            let urlSlide = that.elems[compteur].getAttribute("url");
-           
+            let urlSlide = that.elems[compteur].getAttribute("url");           
 
             that.oPageInfo.title = titreSite + " - " + titleSlide;
             that.oPageInfo.url = urlSlide;
@@ -76,8 +75,6 @@ let Slide = function(){
         });
     };
 
- 
-
     this.display = function(element)
     {
 	   
@@ -100,7 +97,7 @@ let Slide = function(){
 
     };
 
-	this.init = function(depart)
+    this.init = function(depart)
     {
     	let that = this;
         let request = that.getRequest();
