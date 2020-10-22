@@ -36,24 +36,24 @@ div.rect{
     display:none;
   }
 }
-
-
 div.navigation{
   width:75%;
   margin:0 auto;
   ul{
     li{
-      display: inline-block;
-      color:#FFF;
-      cursor: pointer;
-      &.hidden{
-        display:none;
-      }
-      &:first-child{
-        float: left;
-      }
-      &:last-child{
-        float: right;
+        &:first-child{
+          float: left;
+        }
+        &:last-child{
+          float: right;
+        }
+        a{
+        display: inline-block;
+        color:#FFF;
+        cursor: pointer;
+        &.hidden{
+          display:none;
+        }
       }
     }
   }

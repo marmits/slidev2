@@ -1,7 +1,7 @@
 let Slide = function(){
 
     this.elems = document.querySelectorAll('#main div');
-    this.gotopageButtons = document.querySelectorAll('.navigation ul li');
+    this.gotopageButtons = document.querySelectorAll('.navigation ul li a');
     this.nbElements = this.elems.length;
     this.oPageInfo = {
         page:null,
@@ -64,7 +64,9 @@ let Slide = function(){
     this.bindButton = function(compteur){
         let that = this;
         that.gotopageButtons.forEach(function(button){
-            button.addEventListener('click', function(){
+            button.addEventListener('click', function(e){
+                e.stopPropagation();
+                e.preventDefault();
                 if((button.getAttribute("class") === "prev") && (compteur !== 0)){
                     compteur--;
                 } 
