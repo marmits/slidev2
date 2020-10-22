@@ -41,13 +41,13 @@ div.navigation{
   margin:0 auto;
   ul{
     li{
-        &:first-child{
-          float: left;
-        }
-        &:last-child{
-          float: right;
-        }
-        a{
+      &:first-child{
+        float: left;
+      }
+      &:last-child{
+        float: right;
+      }
+      a{
         display: inline-block;
         color:#FFF;
         cursor: pointer;
