@@ -27,7 +27,6 @@ let Slide = function(){
     };
 
     this.setDatas = function(compteur){
-
         let that = this;
         let titleSlide = that.elems[compteur].getAttribute("title");
         let urlSlide = that.elems[compteur].getAttribute("url");           
@@ -39,15 +38,14 @@ let Slide = function(){
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
-	this.setElementVisibility = function(element,visible) {
-
-        if(typeof visible === "boolean" && element instanceof HTMLElement) {
-            if(visible === true) {
-                if (element.classList.contains("hidden")) {
+	this.setElementVisibility = function(element,visible){
+        if(typeof visible === "boolean" && element instanceof HTMLElement){
+            if(visible === true){
+                if (element.classList.contains("hidden")){
                     element.classList.remove("hidden");
                 }
             } else {
-                if (!element.classList.contains("hidden")) {
+                if (!element.classList.contains("hidden")){
                     element.classList.add("hidden");
                 }
             }
@@ -55,9 +53,8 @@ let Slide = function(){
     };
 
     this.bindButton = function(Elements, compteur){
-
         let that = this;
-        that.gotopageButtons.forEach(function(button) {
+        that.gotopageButtons.forEach(function(button){
             button.addEventListener('click', function(){
                 if((button.getAttribute("class") === "prev") && (compteur !== 0)){
                     compteur--;
@@ -71,16 +68,13 @@ let Slide = function(){
         });
     };
 
-    this.display = function(element)
-    {
-
+    this.display = function(element){
         let that = this;
         document.title = window.history.state.title;       
-
         that.setElementVisibility(that.gotopageButtons[0], true);
         that.setElementVisibility(that.gotopageButtons[1], true);
 
-        for (var i = 0, l = that.nbElements; i < l; i++) {
+        for (var i = 0, l = that.nbElements; i < l; i++){
             that.setElementVisibility(that.elems[i], false);
         }
         that.setElementVisibility(that.elems[element], true);
@@ -92,13 +86,12 @@ let Slide = function(){
         }
     };
 
-    this.init = function(depart)
-    {
+    this.init = function(depart){
     	let that = this;
         let request = that.getRequest();
 
         if(request === null){     
-            switch(depart) {
+            switch(depart){
             case depart === undefined :
                 depart = 0;
                 break;
@@ -127,7 +120,7 @@ const titreSite = document.title;
 const slideLuiggi = new Slide();
 if(slideLuiggi !== undefined){
     window.addEventListener ? addEventListener("load", slideLuiggi.init(), false) : window.attachEvent ? attachEvent("onload", slideLuiggi.init()) : (onload = slideLuiggi.init());
-    window.onpopstate= function (oEvent) {
+    window.onpopstate= function (oEvent){
         if(window.history.state !== null){
             slideLuiggi.display(window.history.state.page); 
         }
