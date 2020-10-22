@@ -103,26 +103,26 @@ let Slide = function(){
         let request = that.getRequest();
 
         if(request === null){     
-    	   	switch(depart) {
-    	   		case depart === undefined :
-    	   		depart = 0;
-    	   		break;
-    	   		case depart > that.nbElements : 
-    	   		depart = that.nbElements - 1;
-    	   		break;
-    	   		default :
-    	       	if (isNaN(depart)){
-    	       		depart = 0;
-    		   	}
-    		   	break;
-    		}
+            switch(depart) {
+            case depart === undefined :
+                depart = 0;
+                break;
+            case depart > that.nbElements : 
+                depart = that.nbElements - 1;
+                break;
+            default :
+                if (isNaN(depart)){
+                    depart = 0;
+                }
+                break;
+            }
         } else {
             depart = request;
         }
 
         that.setDatas(depart);
-		that.display(depart);
-		that.bindButton(that.elems, depart);    	
+        that.display(depart);
+        that.bindButton(that.elems, depart);    	
 
     };
 };
