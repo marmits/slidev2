@@ -57,6 +57,20 @@ let Slide = function(){
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
+    this.setElementVisibility = function(element,visible){
+        if(typeof visible === "boolean" && element instanceof HTMLElement){
+            if(visible === true){
+                if (element.classList.contains("hidden")){
+                    element.classList.remove("hidden");
+                }
+            }else{
+                if (!element.classList.contains("hidden")){
+                    element.classList.add("hidden");
+                }
+            }
+        }
+    };
+
     this.navigationDisplay = function(element){
         let that = this;
         let page = window.history.state.page;
@@ -89,27 +103,24 @@ let Slide = function(){
         });
     };
 
-    this.navHistory = function(){
+    this.resetNavigation = function(page){
         let that = this;
-        window.onpopstate=function (oEvent){
-            if(window.history.state !== null){
-                pageActive = window.history.state.page;
-                that.display(window.history.state.page); 
-            }
+        // forEachNav method, could be shipped as part of an Object Literal/Module
+        var forEachNav = function (array, callback, scope) {
+          for (var i = 0; i < array.length; i++) {
+            callback.call(scope, i, array[i]); // passes back stuff we need
+          }
         };
-    }
 
-    this.setElementVisibility = function(element,visible){
-        if(typeof visible === "boolean" && element instanceof HTMLElement){
-            if(visible === true){
-                if (element.classList.contains("hidden")){
-                    element.classList.remove("hidden");
-                }
-            }else{
-                if (!element.classList.contains("hidden")){
-                    element.classList.add("hidden");
-                }
-            }
+        // Usage:
+        // optionally change the scope as final parameter too, like ECMA5
+        var myNodeList = that.navigation[0].getElementsByTagName("a");
+        forEachNav(myNodeList, function (index, value) {
+            value.setAttribute("class","");            
+        });
+
+        if(myNodeList.length > 0){
+            myNodeList[page].setAttribute("class","active");
         }
     };
 
@@ -126,10 +137,20 @@ let Slide = function(){
                     pageActive++;
                 } 
                 that.setDatas(pageActive);                
-                that.display(pageActive);            	
+                that.display(pageActive);               
             });
         });
     };
+
+    this.navHistory = function(){
+        let that = this;
+        window.onpopstate=function (oEvent){
+            if(window.history.state !== null){
+                pageActive = window.history.state.page;
+                that.display(window.history.state.page); 
+            }
+        };
+    }
 
     this.display = function(element){
         let that = this;
@@ -154,27 +175,6 @@ let Slide = function(){
             that.paginationButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
         }
         that.resetNavigation(element);
-    };
-
-    this.resetNavigation = function(page){
-        let that = this;
-        // forEachNav method, could be shipped as part of an Object Literal/Module
-        var forEachNav = function (array, callback, scope) {
-          for (var i = 0; i < array.length; i++) {
-            callback.call(scope, i, array[i]); // passes back stuff we need
-          }
-        };
-
-        // Usage:
-        // optionally change the scope as final parameter too, like ECMA5
-        var myNodeList = that.navigation[0].getElementsByTagName("a");
-        forEachNav(myNodeList, function (index, value) {
-            value.setAttribute("class","");            
-        });
-
-        if(myNodeList.length > 0){
-            myNodeList[page].setAttribute("class","active");
-        }
     };
 
     this.init = function(depart){
