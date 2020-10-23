@@ -9,6 +9,26 @@ let Slide = function(){
         title: null,
         url: location.href
     };
+
+    this.error = function(){
+        let that = this;
+        let error = {
+            message:"",
+            reponse:false
+        };
+        
+        if(that.elems.length === 0){
+            that.setElementVisibility(that.gotopageButtons[0], false);
+            that.setElementVisibility(that.gotopageButtons[1], false);
+            error = {
+                message:"élement(s) manquant(s) dans <div id=\"content\">\najouter:\n<div class=\"rect\" title=\"un titre\" url=\"uneurl\">un contenu</div>",
+                reponse:true
+            }
+        }
+        
+        return error;
+    };
+
     
     this.getRequest = function(){
         let that = this;            
@@ -162,6 +182,10 @@ let Slide = function(){
     this.init = function(depart){
         let that = this;
         let request = that.getRequest();
+        if(that.error().reponse === true){
+            alert(that.error().message);
+            return;
+        }
 
         if(request === null){     
             switch(depart){
