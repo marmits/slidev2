@@ -8,4 +8,4 @@ slide pure javascript version serveur
 - fichier htaccess avec le meme chemin depuis la racine dans le RewriteRule
 
 # notices 
-- dans le html, ne pas placer de balises <a> dans la navigation ul > li
+- dans le html, ne pas placer de balises [<a>] dans la navigation ul > li
