@@ -1,54 +1,87 @@
 body {
   line-height: 1;
-  font-color:#FFF;
+  color:#000;
   background-color: #000;
 }
 
-div#main{
-  position:relative;
-  text-align: center;  
-  width:calc(100% - 10em);
-  margin:5em;
-}
-div.rect{
-  position:relative;  
-  width:50%;
-  height:200px;
-  background-color: grey;
-  margin: 0 auto;  
-  &:nth-child(1){
-    background-color: #CCC;
-  }
-  &:nth-child(2){
-    background-color: #899;
-  }
-  &:nth-child(3){
-    background-color: #AAA;
-  }
-  &:nth-child(4){
-    background-color: #CC8;
-  }
-  &.hidden{
-    display:none;
-  }
-}
-div.navigation{
-  width:75%;
-  margin:0 auto;
-  ul{
-    li{
-      &:first-child{
-        float: left;
+div.container{
+  position: relative;
+  div.navigation{
+    position:absolute;
+    z-index: 99;
+    top:1em;
+    left:1em;
+    height: 270px;
+    overflow: auto;
+    width: 13em;    
+    ul{
+      list-style-type: none;
+      margin:0;
+      padding:0;      
+      li{
+        display: block;
+        float:left;
+        width:100%;
+        a{
+          color:#666;
+          &.active{
+            color:#FFF;
+          }
+        }
       }
-      &:last-child{
-        float: right;
+    }
+  }
+  div.main{
+    width:100%;
+    height:auto;
+    position:relative;
+     div#content, div.pagination{
+      position:relative;
+      text-align: center;  
+      width: calc(100% - 20em);
+      margin: 5em 0 auto 15em;
+    }
+   
+    div.rect{
+      position:relative;  
+      width:100%;
+      height:100%;
+      min-height: 300px;
+      background-color: grey;
+      margin: 0 auto;  
+      &:nth-child(1){
+        background-color: #CCC;
       }
-      a{
-        display: inline-block;
-        color:#FFF;
-        cursor: pointer;
-        &.hidden{
-          display:none;
+      &:nth-child(2){
+        background-color: #899;
+      }
+      &:nth-child(3){
+        background-color: #AAA;
+      }
+      &:nth-child(4){
+        background-color: #CC8;
+      }
+      &.hidden{
+        display:none;
+      }
+    }
+    div.pagination{
+      ul{
+        li{
+          &:first-child{
+            float: left;
+          }
+          &:last-child{
+            float: right;
+          }
+          a{
+            display: inline-block;
+            color:#FFF;
+            cursor: pointer;
+            &.hidden{
+              display:none;
+            }
+          }
         }
       }
     }

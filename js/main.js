@@ -1,14 +1,15 @@
 let Slide = function(){
 
-    this.elems = document.querySelectorAll('#main div');
-    this.gotopageButtons = document.querySelectorAll('.navigation ul li a');
+    this.elems = document.querySelectorAll('#content div');
+    this.gotopageButtons = document.querySelectorAll('.pagination ul li a');
+    this.navigation = document.querySelectorAll('.navigation ul');
     this.nbElements = this.elems.length;
     this.oPageInfo = {
         page:null,
         title: null,
         url: location.href
     };
-
+    
     this.getRequest = function(){
         let that = this;            
         let queryString = window.location.search;
@@ -38,10 +39,43 @@ let Slide = function(){
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
+    this.navigationDisplay = function(element){
+        let that = this;
+        let page = window.history.state.page;
+        that.navigation[0].innerHTML="";
+        let i = 0;
+        that.elems.forEach(function(contenu){
+            var textnode = document.createTextNode(contenu.getAttribute("title"));              
+            var li = document.createElement("LI");                 
+            var a = document.createElement("A");      
+            a.appendChild(textnode);                      
+            that.navigation[0].appendChild(li).appendChild(a);          
+            a.setAttribute("href", contenu.getAttribute("url"));
+            a.setAttribute("class","");
+            if(element === i){
+                a.setAttribute("class","active");
+            }
+            that.bindNavigation(a, i);
+        i++;
+        });        
+    }
+
+    this.bindNavigation = function(element, page){
+        let that = this;
+        element.addEventListener('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();                  
+            pageActive = page;   
+            that.setDatas(page); 
+            that.display(page);
+        });
+    };
+
     this.navHistory = function(){
         let that = this;
         window.onpopstate=function (oEvent){
             if(window.history.state !== null){
+                pageActive = window.history.state.page;
                 that.display(window.history.state.page); 
             }
         };
@@ -61,20 +95,20 @@ let Slide = function(){
         }
     };
 
-    this.bindButton = function(compteur){
+    this.bindPagination = function(compteur){
         let that = this;
         that.gotopageButtons.forEach(function(button){
             button.addEventListener('click', function(e){
                 e.stopPropagation();
                 e.preventDefault();
-                if((button.getAttribute("class") === "prev") && (compteur !== 0)){
-                    compteur--;
+                if((button.getAttribute("class") === "prev") && (pageActive !== 0)){
+                    pageActive--;
                 } 
-                if((button.getAttribute("class") === "next") && (compteur !== (that.nbElements - 1))){
-                    compteur++;
+                if((button.getAttribute("class") === "next") && (pageActive !== (that.nbElements - 1))){
+                    pageActive++;
                 } 
-                that.setDatas(compteur);                
-                that.display(compteur);            	
+                that.setDatas(pageActive);                
+                that.display(pageActive);            	
             });
         });
     };
@@ -101,10 +135,32 @@ let Slide = function(){
         } else {
             that.gotopageButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
         }
+        that.resetNavigation(element);
+    };
+
+    this.resetNavigation = function(page){
+        let that = this;
+        // forEachNav method, could be shipped as part of an Object Literal/Module
+        var forEachNav = function (array, callback, scope) {
+          for (var i = 0; i < array.length; i++) {
+            callback.call(scope, i, array[i]); // passes back stuff we need
+          }
+        };
+
+        // Usage:
+        // optionally change the scope as final parameter too, like ECMA5
+        var myNodeList = that.navigation[0].getElementsByTagName("a");
+        forEachNav(myNodeList, function (index, value) {
+            value.setAttribute("class","");            
+        });
+
+        if(myNodeList.length > 0){
+            myNodeList[page].setAttribute("class","active");
+        }
     };
 
     this.init = function(depart){
-    	let that = this;
+        let that = this;
         let request = that.getRequest();
 
         if(request === null){     
@@ -125,16 +181,18 @@ let Slide = function(){
             depart = request;
         }
 
-        that.setDatas(depart);
+        that.setDatas(depart);    
+        pageActive = depart;     
         that.display(depart);
-        that.bindButton(depart);
-        that.navHistory();    	
+        that.bindPagination();
+        that.navHistory();    
+        that.navigationDisplay(depart);	
     };
 
 };
 
-
 const titreSite = document.title;
+var pageActive = 0;
 const slideLuiggi = new Slide();
 if(slideLuiggi !== undefined){
     window.addEventListener ? addEventListener("load", slideLuiggi.init(), false) : window.attachEvent ? attachEvent("onload", slideLuiggi.init()) : (onload = slideLuiggi.init());
