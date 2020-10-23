@@ -209,7 +209,6 @@ let Slide = function(){
         that.navHistory();    
         that.navigationDisplay(depart);	
     };
-
 };
 
 const titreSite = document.title;
