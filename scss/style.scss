@@ -3,7 +3,10 @@ body {
   color:#000;
   background-color: #000;
 }
-
+h1{
+  font-weight:bold;
+  padding:2em;
+}
 div.container{
   position: relative;
   div.navigation{
@@ -48,19 +51,13 @@ div.container{
       height:100%;
       min-height: 300px;
       background-color: grey;
-      margin: 0 auto;  
-      &:nth-child(1){
-        background-color: #CCC;
-      }
-      &:nth-child(2){
-        background-color: #899;
-      }
-      &:nth-child(3){
-        background-color: #AAA;
-      }
-      &:nth-child(4){
+      margin: 0 auto;
+      &:nth-child(1n){
         background-color: #CC8;
       }
+      &:nth-child(2n){
+        background-color: #899;
+      }     
       &.hidden{
         display:none;
       }

@@ -4,5 +4,8 @@ slide pure javascript version serveur
 - ajout de la navigation par menu
 
 # instructions
-- copier le répertoire à la racine.
-- fichier htaccess avec le nom du répertoire dans le RewriteRule
+- copier le répertoire dans répertoire du serveur
+- fichier htaccess avec le meme chemin depuis la racine dans le RewriteRule
+
+# notices 
+- dans le html, ne pas placer de balises <a> dans la navigation ul > li

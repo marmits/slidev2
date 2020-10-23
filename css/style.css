@@ -4,6 +4,11 @@ body {
   background-color: #000;
 }
 
+h1 {
+  font-weight: bold;
+  padding: 2em;
+}
+
 div.container {
   position: relative;
 }
@@ -51,17 +56,11 @@ div.container div.main div.rect {
   background-color: grey;
   margin: 0 auto;
 }
-div.container div.main div.rect:nth-child(1) {
-  background-color: #CCC;
-}
-div.container div.main div.rect:nth-child(2) {
-  background-color: #899;
-}
-div.container div.main div.rect:nth-child(3) {
-  background-color: #AAA;
-}
-div.container div.main div.rect:nth-child(4) {
+div.container div.main div.rect:nth-child(1n) {
   background-color: #CC8;
+}
+div.container div.main div.rect:nth-child(2n) {
+  background-color: #899;
 }
 div.container div.main div.rect.hidden {
   display: none;
