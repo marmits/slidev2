@@ -92,9 +92,9 @@ let Slide = function(){
         });        
     }
 
-    this.bindNavigation = function(element, page){
+    this.bindNavigation = function(link, page){
         let that = this;
-        element.addEventListener('click', function(e){
+        link.addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();                  
             pageActive = page;   
@@ -103,7 +103,7 @@ let Slide = function(){
         });
     };
 
-    this.resetNavigation = function(page){
+    this.setStateNavigation = function(page){
         let that = this;
         // forEachNav method, could be shipped as part of an Object Literal/Module
         var forEachNav = function (array, callback, scope) {
@@ -114,13 +114,13 @@ let Slide = function(){
 
         // Usage:
         // optionally change the scope as final parameter too, like ECMA5
-        var myNodeList = that.navigation[0].getElementsByTagName("a");
-        forEachNav(myNodeList, function (index, value) {
+        var linksList = that.navigation[0].getElementsByTagName("a");
+        forEachNav(linksList, function (index, value) {
             value.setAttribute("class","");            
         });
 
-        if(myNodeList.length > 0){
-            myNodeList[page].setAttribute("class","active");
+        if(linksList.length > 0){
+            linksList[page].setAttribute("class","active");
         }
     };
 
@@ -174,11 +174,12 @@ let Slide = function(){
         } else {
             that.paginationButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
         }
-        that.resetNavigation(element);
+        that.setStateNavigation(element);
     };
 
-    this.init = function(depart){
+    this.init = function(){
         let that = this;
+        let depart = 0;
         if(that.error().reponse === true){
             alert(that.error().message);
             return;
