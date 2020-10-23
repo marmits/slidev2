@@ -1,7 +1,7 @@
 let Slide = function(){
 
     this.elems = document.querySelectorAll('#content div');
-    this.gotopageButtons = document.querySelectorAll('.pagination ul li a');
+    this.paginationButtons = document.querySelectorAll('.pagination ul li a');
     this.navigation = document.querySelectorAll('.navigation ul');
     this.nbElements = this.elems.length;
     this.oPageInfo = {
@@ -18,8 +18,8 @@ let Slide = function(){
         };
         
         if(that.elems.length === 0){
-            that.setElementVisibility(that.gotopageButtons[0], false);
-            that.setElementVisibility(that.gotopageButtons[1], false);
+            that.setElementVisibility(that.paginationButtons[0], false);
+            that.setElementVisibility(that.paginationButtons[1], false);
             error = {
                 message:"élement(s) manquant(s) dans <div id=\"content\">\najouter:\n<div class=\"rect\" title=\"un titre\" url=\"uneurl\">un contenu</div>",
                 reponse:true
@@ -115,7 +115,7 @@ let Slide = function(){
 
     this.bindPagination = function(compteur){
         let that = this;
-        that.gotopageButtons.forEach(function(button){
+        that.paginationButtons.forEach(function(button){
             button.addEventListener('click', function(e){
                 e.stopPropagation();
                 e.preventDefault();
@@ -134,8 +134,8 @@ let Slide = function(){
     this.display = function(element){
         let that = this;
         document.title = window.history.state.title;       
-        that.setElementVisibility(that.gotopageButtons[0], true);
-        that.setElementVisibility(that.gotopageButtons[1], true);
+        that.setElementVisibility(that.paginationButtons[0], true);
+        that.setElementVisibility(that.paginationButtons[1], true);
 
         for (var i = 0, l = that.nbElements; i < l; i++){
             that.setElementVisibility(that.elems[i], false);
@@ -144,14 +144,14 @@ let Slide = function(){
         that.setElementVisibility(that.elems[element], true);
         
         if(element === 0){
-            that.setElementVisibility(that.gotopageButtons[0], false);
+            that.setElementVisibility(that.paginationButtons[0], false);
         } else {
-            that.gotopageButtons[0].setAttribute("href",that.elems[element-1].getAttribute("url"));
+            that.paginationButtons[0].setAttribute("href",that.elems[element-1].getAttribute("url"));
         }
         if(element === (that.nbElements - 1)){
-            that.setElementVisibility(that.gotopageButtons[1], false);
+            that.setElementVisibility(that.paginationButtons[1], false);
         } else {
-            that.gotopageButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
+            that.paginationButtons[1].setAttribute("href",that.elems[element+1].getAttribute("url"));
         }
         that.resetNavigation(element);
     };
