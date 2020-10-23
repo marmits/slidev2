@@ -25,11 +25,9 @@ let Slide = function(){
                 reponse:true
             }
         }
-        
         return error;
     };
 
-    
     this.getRequest = function(){
         let that = this;            
         let queryString = window.location.search;
@@ -181,12 +179,11 @@ let Slide = function(){
 
     this.init = function(depart){
         let that = this;
-        let request = that.getRequest();
         if(that.error().reponse === true){
             alert(that.error().message);
             return;
         }
-
+        let request = that.getRequest();
         if(request === null){     
             switch(depart){
                 case depart === undefined :
