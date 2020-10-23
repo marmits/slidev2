@@ -203,12 +203,12 @@ let Slide = function(){
             depart = request;
         }
 
-        that.setDatas(depart);    
-        pageActive = depart;     
+        pageActive = depart; 
+        that.setDatas(depart);                
         that.display(depart);
+        that.navigationDisplay(depart); 
         that.bindPagination();
-        that.navHistory();    
-        that.navigationDisplay(depart);	
+        that.navHistory();            
     };
 };
 
