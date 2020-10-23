@@ -1,4 +1,5 @@
 let Slide = function(){
+    
     this.elems = document.querySelectorAll('#content div');
     this.paginationButtons = document.querySelectorAll('.pagination ul li a');
     this.navigation = document.querySelectorAll('.navigation ul');
