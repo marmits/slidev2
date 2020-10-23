@@ -147,7 +147,7 @@ let Slide = function(){
         window.onpopstate=function (oEvent){
             if(window.history.state !== null){
                 pageActive = window.history.state.page;
-                that.display(window.history.state.page); 
+                that.display(pageActive); 
             }
         };
     }
