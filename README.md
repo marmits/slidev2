@@ -1,4 +1,4 @@
-# slidev2
+# slidev2 V1
 slide pure javascript version serveur
 gère le history.state
 
