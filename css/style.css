@@ -121,6 +121,12 @@ div.container div.main div.rect.hidden {
 }
 div.container div.main div.pagination {
   height: 2.5em;
+  margin: 1em 0 auto 15em;
+}
+@media only screen and (max-width : 992px) {
+  div.container div.main div.pagination {
+    margin: 1em 0 auto 5em;
+  }
 }
 div.container div.main div.pagination ul li:first-child {
   float: left;

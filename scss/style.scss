@@ -110,6 +110,10 @@ div.container{
     }
     div.pagination{
       height:2.5em;
+      margin: 1em 0 auto 15em;
+      @media #{$medium-and-down} {
+        margin: 1em 0 auto 5em;
+      }
       ul{
         li{
           &:first-child{
