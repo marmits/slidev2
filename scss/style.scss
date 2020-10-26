@@ -74,10 +74,10 @@ div.container{
       position:relative;
       text-align: center;  
       width: calc(100% - 20em);
-      margin: 5em 0 auto 15em;
+      margin: 2em 0 auto 15em;
       @media #{$medium-and-down} {
         width: calc(100% - 10em);
-        margin: 1em 0 auto 5em;
+        margin: 2em 0 auto 5em;
       }
     }
    

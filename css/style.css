@@ -82,12 +82,12 @@ div.container div.main div#content, div.container div.main div.pagination {
   position: relative;
   text-align: center;
   width: calc(100% - 20em);
-  margin: 5em 0 auto 15em;
+  margin: 2em 0 auto 15em;
 }
 @media only screen and (max-width : 992px) {
   div.container div.main div#content, div.container div.main div.pagination {
     width: calc(100% - 10em);
-    margin: 1em 0 auto 5em;
+    margin: 2em 0 auto 5em;
   }
 }
 div.container div.main div.rect {
