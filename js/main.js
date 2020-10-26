@@ -81,8 +81,10 @@ let Slide = function(){
             e.preventDefault();  
             if(navigation.classList.contains("hidden")){
                 that.setElementVisibility(navigation, true);
+                this.classList.add("close");
             } else {
                 that.setElementVisibility(navigation, false);
+                this.classList.remove("close");
             }
             
             

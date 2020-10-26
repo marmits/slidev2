@@ -24,6 +24,9 @@ a.switch{
   text-decoration: none;
   text-transform: uppercase;
   text-align: left;
+  &.close{
+    color:#666;
+  }
   @media #{$medium-and-down} {
     /*position:relative;
     top:auto;
