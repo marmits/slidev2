@@ -1,8 +1,9 @@
 let Slide = function(){
     
     this.elems = document.querySelectorAll('#content div');
+    this.switchMenu = document.querySelectorAll('a.switch');
     this.paginationButtons = document.querySelectorAll('.pagination ul li a');
-    this.navigation = document.querySelectorAll('.navigation ul');
+    this.navigation = document.querySelectorAll('.navigation');
     this.nbElements = this.elems.length;
     this.oPageInfo = {
         page:null,
@@ -71,17 +72,35 @@ let Slide = function(){
         }
     };
 
+    this.bindSwitchMenu = function(){
+        let that = this;
+        let navigation = that.navigation[0];
+
+        that.switchMenu[0].addEventListener('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();  
+            if(navigation.classList.contains("hidden")){
+                that.setElementVisibility(navigation, true);
+            } else {
+                that.setElementVisibility(navigation, false);
+            }
+            
+            
+        });
+    };
+
     this.navigationDisplay = function(element){
         let that = this;
+        that.setElementVisibility(that.navigation[0], false);
         let page = window.history.state.page;
-        that.navigation[0].innerHTML="";
+        that.navigation[0].querySelectorAll('ul')[0].innerHTML="";
         let i = 0;
         that.elems.forEach(function(contenu){
             var textnode = document.createTextNode(contenu.getAttribute("title"));              
             var li = document.createElement("LI");                 
             var a = document.createElement("A");      
             a.appendChild(textnode);                      
-            that.navigation[0].appendChild(li).appendChild(a);          
+            that.navigation[0].querySelectorAll('ul')[0].appendChild(li).appendChild(a);          
             a.setAttribute("href", contenu.getAttribute("url"));
             a.setAttribute("class","");
             if(element === i){
@@ -114,7 +133,7 @@ let Slide = function(){
 
         // Usage:
         // optionally change the scope as final parameter too, like ECMA5
-        var linksList = that.navigation[0].getElementsByTagName("a");
+        var linksList = that.navigation[0].querySelectorAll('ul')[0].getElementsByTagName("a");
         forEachNav(linksList, function (index, value) {
             value.setAttribute("class","");            
         });
@@ -208,7 +227,8 @@ let Slide = function(){
         that.display(depart);
         that.navigationDisplay(depart); 
         that.bindPagination();
-        that.navHistory();            
+        that.navHistory();
+        that.bindSwitchMenu(); 
     };
 };
 

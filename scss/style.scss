@@ -1,3 +1,5 @@
+$medium-screen: 992px !default;
+$medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 body {
   line-height: 1;
   color:#000;
@@ -7,8 +9,16 @@ h1{
   font-weight:bold;
   padding:2em;
 }
+a.switch{
+  position: absolute;
+  z-index: 10;
+  top:2em;
+  left:1em;
+  display:block;
+  color:#FFF;
+}
 div.container{
-  position: relative;
+  position: relative; 
   div.navigation{
     position:absolute;
     z-index: 99;
@@ -16,7 +26,20 @@ div.container{
     left:1em;
     height: 270px;
     overflow: auto;
-    width: 13em;    
+    width: 13em;  
+    background-color: #000;   
+    @media #{$medium-and-down} {
+      position:relative;
+      top:auto;
+      left:auto;      
+      padding: 1em;
+      margin: 1em auto 0 5em;
+      width: calc(100% - 12em);
+      height: 170px;
+    }
+    &.hidden{
+      display:none;
+    }      
     ul{
       list-style-type: none;
       margin:0;
@@ -25,6 +48,10 @@ div.container{
         display: block;
         float:left;
         width:100%;
+        text-align: left;
+        @media #{$medium-and-down} {
+          text-align: center;
+        }
         a{
           color:#666;
           &.active{
@@ -43,6 +70,10 @@ div.container{
       text-align: center;  
       width: calc(100% - 20em);
       margin: 5em 0 auto 15em;
+      @media #{$medium-and-down} {
+        width: calc(100% - 10em);
+        margin: 1em 0 auto 5em;
+      }
     }
    
     div.rect{
