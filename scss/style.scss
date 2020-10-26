@@ -1,10 +1,13 @@
 $medium-screen: 992px !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
-$color-link:#091D99;;
+$color-link:#999;
+$color-link-active:#FFF;
+$color-link-content:#091D99;;
 body {
   line-height: 1;
   color:#000;
   background-color: #000;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 h1{
   font-weight:bold;
@@ -17,7 +20,7 @@ p{
 }
 a, a:active, a:hover, a:visited, a:link{
   text-decoration: underline;  
-  color:$color-link;
+  color:$color-link-content;
 }
 ol, ul {
   padding:0 0 0 2em;
@@ -31,12 +34,12 @@ a.switch{
   top:2em;
   left:1em;
   display:block;
-  color:#FFF;
+  color:$color-link-active;
   text-decoration: none;
   text-transform: uppercase;
   text-align: left;
   &.close{
-    color:#666;
+    color:$color-link;
   }
   @media #{$medium-and-down} {
     /*position:relative;
@@ -82,9 +85,9 @@ div.container{
           text-align: center;
         }
         a{
-          color:#666;
+          color:$color-link;
           &.active{
-            color:#FFF;
+            color:$color-link-active;
           }
         }
       }
@@ -138,7 +141,7 @@ div.container{
           }
           a{
             display: inline-block;
-            color:#FFF;
+            color:$color-link-active;
             text-transform:uppercase;
             text-decoration: underline;
             &.hidden{
