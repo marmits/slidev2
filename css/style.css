@@ -90,11 +90,6 @@ div.container div.navigation ul li {
   width: 100%;
   text-align: left;
 }
-@media only screen and (max-width : 992px) {
-  div.container div.navigation ul li {
-    text-align: center;
-  }
-}
 div.container div.navigation ul li a {
   color: #999;
 }

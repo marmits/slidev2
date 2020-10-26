@@ -81,9 +81,6 @@ div.container{
         float:left;
         width:100%;
         text-align: left;
-        @media #{$medium-and-down} {
-          text-align: center;
-        }
         a{
           color:$color-link;
           &.active{
