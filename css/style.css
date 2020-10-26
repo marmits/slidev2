@@ -15,6 +15,18 @@ p {
   padding: 0 1em 1em 1em;
 }
 
+a, a:active, a:hover, a:visited, a:link {
+  text-decoration: underline;
+  color: #091D99;
+}
+
+ol, ul {
+  padding: 0 0 0 2em;
+}
+ol li, ul li {
+  text-align: left;
+}
+
 a.switch {
   position: absolute;
   z-index: 10;
@@ -117,7 +129,7 @@ div.container div.main div.rect:nth-child(1n) {
   background-color: #CC8;
 }
 div.container div.main div.rect:nth-child(2n) {
-  background-color: #899;
+  background-color: #C99;
 }
 div.container div.main div.rect.hidden {
   display: none;
@@ -130,6 +142,9 @@ div.container div.main div.pagination {
   div.container div.main div.pagination {
     margin: 1em 0 auto 5em;
   }
+}
+div.container div.main div.pagination ul {
+  padding: 0;
 }
 div.container div.main div.pagination ul li:first-child {
   float: left;

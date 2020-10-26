@@ -1,5 +1,6 @@
 $medium-screen: 992px !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
+$color-link:#091D99;;
 body {
   line-height: 1;
   color:#000;
@@ -13,6 +14,16 @@ h1{
 p{
   text-align:left;
   padding:0 1em 1em 1em;
+}
+a, a:active, a:hover, a:visited, a:link{
+  text-decoration: underline;  
+  color:$color-link;
+}
+ol, ul {
+  padding:0 0 0 2em;
+  li{
+    text-align: left;
+  }
 }
 a.switch{
   position: absolute;
@@ -104,7 +115,7 @@ div.container{
         background-color: #CC8;
       }
       &:nth-child(2n){
-        background-color: #899;
+        background-color: #C99;
       }     
       &.hidden{
         display:none;
@@ -117,6 +128,7 @@ div.container{
         margin: 1em 0 auto 5em;
       }
       ul{
+        padding:0;
         li{
           &:first-child{
             float: left;
