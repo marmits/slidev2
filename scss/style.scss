@@ -21,6 +21,16 @@ a.switch{
   left:1em;
   display:block;
   color:#FFF;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: left;
+  @media #{$medium-and-down} {
+    /*position:relative;
+    top:auto;
+    left: auto;
+    padding:2em 0 0 1em;
+    */
+  }
 }
 div.container{
   position: relative; 
@@ -111,7 +121,8 @@ div.container{
           a{
             display: inline-block;
             color:#FFF;
-            cursor: pointer;
+            text-transform:uppercase;
+            text-decoration: underline;
             &.hidden{
               display:none;
             }

@@ -22,6 +22,18 @@ a.switch {
   left: 1em;
   display: block;
   color: #FFF;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: left;
+}
+@media only screen and (max-width : 992px) {
+  a.switch {
+    /*position:relative;
+    top:auto;
+    left: auto;
+    padding:2em 0 0 1em;
+    */
+  }
 }
 
 div.container {
@@ -119,7 +131,8 @@ div.container div.main div.pagination ul li:last-child {
 div.container div.main div.pagination ul li a {
   display: inline-block;
   color: #FFF;
-  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: underline;
 }
 div.container div.main div.pagination ul li a.hidden {
   display: none;
