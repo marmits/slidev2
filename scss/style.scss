@@ -8,6 +8,11 @@ body {
 h1{
   font-weight:bold;
   padding:2em;
+  text-align: left;
+}
+p{
+  text-align:left;
+  padding:0 1em 1em 1em;
 }
 a.switch{
   position: absolute;
@@ -94,6 +99,7 @@ div.container{
       }
     }
     div.pagination{
+      height:2.5em;
       ul{
         li{
           &:first-child{
