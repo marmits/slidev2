@@ -1,13 +1,18 @@
+html {
+  height: 100%;
+}
+
 body {
   line-height: 1;
   color: #000;
   background-color: #000;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-height: calc(100% - 2em);
 }
 
 h1 {
   font-weight: bold;
-  padding: 2em;
+  padding: 2em 2em 2em 1em;
   text-align: left;
 }
 
@@ -41,15 +46,6 @@ a.switch {
 }
 a.switch.close {
   color: #999;
-}
-@media only screen and (max-width : 992px) {
-  a.switch {
-    /*position:relative;
-    top:auto;
-    left: auto;
-    padding:2em 0 0 1em;
-    */
-  }
 }
 
 div.container {
@@ -130,14 +126,16 @@ div.container div.main div.rect:nth-child(2n) {
 div.container div.main div.rect.hidden {
   display: none;
 }
-div.container div.main div.pagination {
-  height: 2.5em;
-  margin: 1em 0 auto 15em;
+div.container div.main div.pagination, div.container div.main div.footer {
+  margin: 1em 0 1em 15em;
 }
 @media only screen and (max-width : 992px) {
-  div.container div.main div.pagination {
-    margin: 1em 0 auto 5em;
+  div.container div.main div.pagination, div.container div.main div.footer {
+    margin: 1em 0 1em 5em;
   }
+}
+div.container div.main div.pagination {
+  height: 2.5em;
 }
 div.container div.main div.pagination ul {
   padding: 0;
@@ -156,6 +154,14 @@ div.container div.main div.pagination ul li a {
 }
 div.container div.main div.pagination ul li a.hidden {
   display: none;
+}
+div.container div.main div.footer {
+  position: relative;
+  color: #FFF;
+}
+div.container div.main div.footer a {
+  font-style: italic;
+  color: #FFF;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -2,16 +2,20 @@ $medium-screen: 992px !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 $color-link:#999;
 $color-link-active:#FFF;
-$color-link-content:#091D99;;
+$color-link-content:#091D99;
+html {
+  height: 100%;
+}
 body {
   line-height: 1;
   color:#000;
   background-color: #000;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  min-height: calc(100% - 2em);
 }
 h1{
   font-weight:bold;
-  padding:2em;
+  padding:2em 2em 2em 1em;
   text-align: left;
 }
 p{
@@ -40,13 +44,6 @@ a.switch{
   text-align: left;
   &.close{
     color:$color-link;
-  }
-  @media #{$medium-and-down} {
-    /*position:relative;
-    top:auto;
-    left: auto;
-    padding:2em 0 0 1em;
-    */
   }
 }
 div.container{
@@ -121,12 +118,14 @@ div.container{
         display:none;
       }
     }
-    div.pagination{
-      height:2.5em;
-      margin: 1em 0 auto 15em;
+    div.pagination, div.footer{
+    margin: 1em 0 1em 15em;
       @media #{$medium-and-down} {
-        margin: 1em 0 auto 5em;
+        margin: 1em 0 1em 5em;
       }
+    }
+    div.pagination{
+      height:2.5em;      
       ul{
         padding:0;
         li{
@@ -146,6 +145,14 @@ div.container{
             }
           }
         }
+      }
+    }
+    div.footer{
+      position:relative;
+      color:$color-link-active;
+      a{
+        font-style: italic;
+        color:$color-link-active;
       }
     }
   }
