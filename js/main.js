@@ -208,12 +208,11 @@ class Slide {
     bindTest = function (){        
         let that = this;
         that.testajax[0].addEventListener('click', function(e){
-            console.log("ici"); 
             e.stopPropagation();
             e.preventDefault();      
 
             var xhr=new XMLHttpRequest();
-            xhr.open("GET","tools.php");
+            xhr.open("GET","tools.php?param=liste_all");
             xhr.responseType = "json";
             xhr.send();
             xhr.onload = function(){
@@ -224,15 +223,60 @@ class Slide {
                     //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
                 }else{ 
                     console.log(xhr.status);
-                    console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
+                    let obj = JSON.parse(JSON.stringify(xhr.response));
+                    //console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
+                    
+                    for (var element = 0, l = obj.length; element < l; element++) {
+                       let nom = obj[element].nom;
+                       let titrePage = obj[element].titrePage;
+                       let content = obj[element].content;
+                       console.log(content);
+
+                    };
+   
                 }
             };
-        xhr.onerror = function(){
+            xhr.onerror = function(){
                 console.log("la requête a echoué");
             };
         
-        });  
-              
+        });      
+    };
+
+    bindTest2 = function (){        
+        let that = this;
+        that.testajax[0].addEventListener('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();      
+
+            var xhr=new XMLHttpRequest();
+            xhr.open("GET","tools.php?param=liste_nom_fichier");
+            xhr.responseType = "json";
+            xhr.send();
+            xhr.onload = function(){
+            //Si le statut HTTP n'est pas 200...
+                if (xhr.status != 200){ 
+                    //...On affiche le statut et le message correspondant
+                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+                    //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
+                }else{ 
+                    console.log(xhr.status);
+                    let obj = JSON.parse(JSON.stringify(xhr.response));
+                    //console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
+                    
+                    for (var element = 0, l = obj.length; element < l; element++) {
+                       let nom = obj[element].file;
+                       console.log(nom);
+
+                    };
+   
+                }
+            };
+            xhr.onerror = function(){
+                console.log("la requête a echoué");
+            };
+        
+        });      
     };
 
     init = function(){
