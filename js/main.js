@@ -239,7 +239,7 @@ class Slide {
     create = function (nom) {
         let that = this;
         that.titreSite = nom;
-        window.addEventListener ? addEventListener("load", slideLuiggi.init(), false) : window.attachEvent ? attachEvent("onload", slideLuiggi.init()) : (onload = slideLuiggi.init());        
+        window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
     }
 };
 
