@@ -44,6 +44,11 @@ a.switch {
   text-transform: uppercase;
   text-align: left;
 }
+@media only screen and (max-width : 992px) {
+  a.switch {
+    left: calc(50% - 1em);
+  }
+}
 a.switch.close {
   color: #999;
 }
@@ -60,6 +65,7 @@ div.container div.navigation {
   overflow: auto;
   width: 13em;
   background-color: #000;
+  margin: 1em 0 0 0;
 }
 @media only screen and (max-width : 992px) {
   div.container div.navigation {
@@ -67,7 +73,7 @@ div.container div.navigation {
     top: auto;
     left: auto;
     padding: 1em;
-    margin: 1em auto 0 5em;
+    margin: 3em auto 0 5em;
     width: calc(100% - 12em);
     height: 170px;
   }
@@ -106,6 +112,14 @@ div.container div.main div#content, div.container div.main div.pagination {
 @media only screen and (max-width : 992px) {
   div.container div.main div#content, div.container div.main div.pagination {
     width: calc(100% - 10em);
+    margin: 2em 0 auto 5em;
+  }
+}
+@media only screen and (max-width : 992px) {
+  div.container div.main div#content {
+    margin: 4em 0 auto 5em;
+  }
+  div.container div.main div#content.small {
     margin: 2em 0 auto 5em;
   }
 }

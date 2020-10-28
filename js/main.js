@@ -3,10 +3,12 @@ class Slide {
     constructor() {
         this.titreSite = document.title;
         this.pageActive = 0;
+        this.content = document.getElementById('content');
         this.elems = document.querySelectorAll('#content div');
         this.switchMenu = document.querySelectorAll('a.switch');
         this.paginationButtons = document.querySelectorAll('.pagination ul li a');
         this.navigation = document.querySelectorAll('.navigation');
+        this.testajax = document.querySelectorAll('a.testajax');
         this.nbElements = this.elems.length;
         this.oPageInfo = {
             page:null,
@@ -83,10 +85,12 @@ class Slide {
             e.preventDefault();  
             if(navigation.classList.contains("hidden")){
                 that.setElementVisibility(navigation, true);
+                that.content.classList.add("small");
                 this.classList.add("close");
             } else {
                 that.setElementVisibility(navigation, false);
-                this.classList.remove("close");
+                that.content.classList.remove("small");
+                this.classList.remove("close");               
             }
             
             
@@ -201,6 +205,36 @@ class Slide {
         that.setStateNavigation(element);
     };
 
+    bindTest = function (){        
+        let that = this;
+        that.testajax[0].addEventListener('click', function(e){
+            console.log("ici"); 
+            e.stopPropagation();
+            e.preventDefault();      
+
+            var xhr=new XMLHttpRequest();
+            xhr.open("GET","tools.php");
+            xhr.responseType = "json";
+            xhr.send();
+            xhr.onload = function(){
+            //Si le statut HTTP n'est pas 200...
+                if (xhr.status != 200){ 
+                    //...On affiche le statut et le message correspondant
+                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+                    //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
+                }else{ 
+                    console.log(xhr.status);
+                    console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
+                }
+            };
+        xhr.onerror = function(){
+                console.log("la requête a echoué");
+            };
+        
+        });  
+              
+    };
+
     init = function(){
         let that = this;
         let depart = 0;
@@ -234,13 +268,17 @@ class Slide {
         that.bindPagination();
         that.navHistory();
         that.bindSwitchMenu(); 
+        that.bindTest();
     };
 
-    create = function (nom) {
+    create = function (nom){
         let that = this;
         that.titreSite = nom;
         window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
     }
+
+
+    
 };
 
 const slideLuiggi = new Slide();

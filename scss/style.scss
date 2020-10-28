@@ -42,6 +42,9 @@ a.switch{
   text-decoration: none;
   text-transform: uppercase;
   text-align: left;
+  @media #{$medium-and-down} {
+    left:calc(50% - 1em);
+  }
   &.close{
     color:$color-link;
   }
@@ -57,12 +60,13 @@ div.container{
     overflow: auto;
     width: 13em;  
     background-color: #000;   
+    margin: 1em 0 0 0;
     @media #{$medium-and-down} {
       position:relative;
       top:auto;
       left:auto;      
       padding: 1em;
-      margin: 1em auto 0 5em;
+      margin: 3em auto 0 5em;
       width: calc(100% - 12em);
       height: 170px;
     }
@@ -100,6 +104,15 @@ div.container{
         width: calc(100% - 10em);
         margin: 2em 0 auto 5em;
       }
+    }
+    div#content{
+      @media #{$medium-and-down} {
+        margin: 4em 0 auto 5em;
+        &.small{
+          margin: 2em 0 auto 5em;
+        }
+      }
+
     }   
     div.rect{
       position:relative;  
