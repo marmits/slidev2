@@ -17,6 +17,7 @@ class Slide {
             url: location.href
         };
         this.contenu = [];
+        this.auteur = "Geoffroy Stolaric";
        
     }
 
@@ -298,6 +299,8 @@ class Slide {
                 console.log(toto);
             };
             testfunction(toto);
+            console.log(slideLuiggi.titreSite);
+            console.log(slideLuiggi.auteur);
 
         };
         that.ajaxContent(that.urlPhp, getDatas); 
