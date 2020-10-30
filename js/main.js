@@ -1,6 +1,7 @@
 class Slide {
 
     constructor() {
+        this.urlPhp = "tools.php?param=liste_all";
         this.titreSite = document.title;
         this.pageActive = 0;
         this.content = document.getElementById('content');
@@ -15,6 +16,8 @@ class Slide {
             title: null,
             url: location.href
         };
+        this.contenu = [];
+       
     }
 
     error = function(){
@@ -103,6 +106,10 @@ class Slide {
         let page = window.history.state.page;
         that.navigation[0].querySelectorAll('ul')[0].innerHTML="";
         let i = 0;
+        
+
+        
+        
         that.elems.forEach(function(contenu){
             
             var textnode = document.createTextNode(contenu.getAttribute("title"));              
@@ -205,79 +212,59 @@ class Slide {
         that.setStateNavigation(element);
     };
 
-    bindTest = function (){        
+    bindTest = function (url = null){        
         let that = this;
+        let results = [];
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();      
+           
+            console.log(that.contenu);
+        });    
 
-            var xhr=new XMLHttpRequest();
-            xhr.open("GET","tools.php?param=liste_all");
-            xhr.responseType = "json";
-            xhr.send();
-            xhr.onload = function(){
-            //Si le statut HTTP n'est pas 200...
-                if (xhr.status != 200){ 
-                    //...On affiche le statut et le message correspondant
-                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
-                    //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
-                }else{ 
-                    console.log(xhr.status);
-                    let obj = JSON.parse(JSON.stringify(xhr.response));
-                    //console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
-                    
-                    for (var element = 0, l = obj.length; element < l; element++) {
-                       let nom = obj[element].nom;
-                       let titrePage = obj[element].titrePage;
-                       let content = obj[element].content;
-                       console.log(content);
-
-                    };
-   
-                }
-            };
-            xhr.onerror = function(){
-                console.log("la requête a echoué");
-            };
-        
-        });      
     };
 
-    bindTest2 = function (){        
+    ajaxContent = async function(url = null, callback){
         let that = this;
-        that.testajax[0].addEventListener('click', function(e){
-            e.stopPropagation();
-            e.preventDefault();      
-
-            var xhr=new XMLHttpRequest();
-            xhr.open("GET","tools.php?param=liste_nom_fichier");
-            xhr.responseType = "json";
-            xhr.send();
-            xhr.onload = function(){
-            //Si le statut HTTP n'est pas 200...
-                if (xhr.status != 200){ 
-                    //...On affiche le statut et le message correspondant
-                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
-                    //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
-                }else{ 
-                    console.log(xhr.status);
-                    let obj = JSON.parse(JSON.stringify(xhr.response));
-                    //console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
-                    
-                    for (var element = 0, l = obj.length; element < l; element++) {
-                       let nom = obj[element].file;
-                       console.log(nom);
-
-                    };
-   
-                }
-            };
-            xhr.onerror = function(){
-                console.log("la requête a echoué");
-            };
+        let datas = [];
+        var xhr=new XMLHttpRequest();
+        xhr.open("GET",url);
+        xhr.responseType = "json";
+        xhr.send();
+        xhr.onload = function(){
+        //Si le statut HTTP n'est pas 200...
+            if (xhr.status != 200){ 
+                //...On affiche le statut et le message correspondant
+                console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+                //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
+            }else{ 
+                let datas = [];
+                let status = xhr.status;
+                let obj = JSON.parse(JSON.stringify(xhr.response));
+                //console.log(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
+                
+                for (var element = 0, l = obj.length; element < l; element++) {
+                   let infos = {};
+                   let file = obj[element].file;
+                   let titrePage = obj[element].titrePage;
+                   let content = obj[element].content;
+                   infos.file = file;
+                   infos.titrePage = titrePage;
+                   infos.content = content;
+                   datas[element] = infos;
+                };
+                callback(datas);
+            }
+        };
+        xhr.onerror = function(){
+            console.log("la requête a echoué");
+        };
         
-        });      
     };
+
+    
+
+    
 
     init = function(){
         let that = this;
@@ -304,6 +291,17 @@ class Slide {
         }else{
             depart = request;
         }
+        
+        function getDatas(content){ 
+            let toto = content;
+            let testfunction = function(toto){
+                console.log(toto);
+            };
+            testfunction(toto);
+
+        };
+        that.ajaxContent(that.urlPhp, getDatas); 
+
 
         that.pageActive = depart; 
         that.setDatas(depart);                
@@ -313,19 +311,24 @@ class Slide {
         that.navHistory();
         that.bindSwitchMenu(); 
         that.bindTest();
+                   
+
     };
 
     create = function (nom){
         let that = this;
         that.titreSite = nom;
         window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
-    }
+    };
 
-
+    
     
 };
 
+
+
 const slideLuiggi = new Slide();
+
 if(slideLuiggi !== undefined){
      slideLuiggi.create("Luiggi's Slide");    
 }
