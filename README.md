@@ -9,5 +9,5 @@ slide pure javascript version serveur
 - fichier htaccess avec le même chemin depuis la racine dans le RewriteRule
 
 # notices 
-Javascript, Sass, Html, Php
-un tag H1 obligatoire dans les fichiers /files/file.html
+- Javascript, Sass, Html, Php
+- un tag H1 obligatoire dans les fichiers /files/file.html
