@@ -1,4 +1,4 @@
-# slidev2
+# slidev2 -> v1.0.3
 slide pure javascript version serveur
 - gère le history.state
 - navigation par menu et pagination
