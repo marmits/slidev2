@@ -8,6 +8,7 @@ body {
   background-color: #000;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   min-height: calc(100% - 2em);
+  font-size: 1em;
 }
 
 h1 {
@@ -46,7 +47,13 @@ a.switch {
 }
 @media only screen and (max-width : 992px) {
   a.switch {
-    left: calc(50% - 1em);
+    left: calc(50% - 1.5em);
+    font-size: 1.5em;
+  }
+}
+@media only screen and (max-width : 321px) {
+  a.switch {
+    top: 1.5em;
   }
 }
 a.switch.close {
@@ -73,7 +80,7 @@ div.container div.navigation {
     top: auto;
     left: auto;
     padding: 1em;
-    margin: 3em auto 0 5em;
+    margin: 5em auto 0 5em;
     width: calc(100% - 12em);
     height: 170px;
   }
@@ -92,8 +99,23 @@ div.container div.navigation ul li {
   width: 100%;
   text-align: left;
 }
+@media only screen and (max-width : 992px) {
+  div.container div.navigation ul li {
+    text-align: center;
+  }
+}
 div.container div.navigation ul li a {
   color: #999;
+}
+@media only screen and (max-width : 992px) {
+  div.container div.navigation ul li a {
+    font-size: 1.3em;
+  }
+}
+@media only screen and (max-width : 321px) {
+  div.container div.navigation ul li a {
+    font-size: 1em;
+  }
 }
 div.container div.navigation ul li a.active {
   color: #FFF;
@@ -117,10 +139,21 @@ div.container div.main div#content, div.container div.main div.pagination {
 }
 @media only screen and (max-width : 992px) {
   div.container div.main div#content {
-    margin: 4em 0 auto 5em;
+    margin: 6em 0 auto 5em;
   }
   div.container div.main div#content.small {
-    margin: 2em 0 auto 5em;
+    margin: 0em 0 auto 5em;
+  }
+}
+@media only screen and (max-width : 992px) and (max-width : 321px) {
+  div.container div.main div#content.small {
+    margin: 0em 0 auto 2.5em;
+  }
+}
+@media only screen and (max-width : 321px) {
+  div.container div.main div#content {
+    width: calc(100% - 5em);
+    margin: 6em 0 auto 2.5em;
   }
 }
 div.container div.main div.rect {
@@ -146,6 +179,12 @@ div.container div.main div.pagination, div.container div.main div.footer {
 @media only screen and (max-width : 992px) {
   div.container div.main div.pagination, div.container div.main div.footer {
     margin: 1em 0 1em 5em;
+  }
+}
+@media only screen and (max-width : 321px) {
+  div.container div.main div.pagination, div.container div.main div.footer {
+    width: calc(100% - 5em);
+    margin: 1em 0 1em 2.5em;
   }
 }
 div.container div.main div.pagination {

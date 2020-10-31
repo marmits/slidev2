@@ -1,5 +1,7 @@
 $medium-screen: 992px !default;
+$small-screen: 321px !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
+$small-and-down: "only screen and (max-width : #{$small-screen})" !default;
 $color-link:#999;
 $color-link-active:#FFF;
 $color-link-content:#091D99;
@@ -12,6 +14,7 @@ body {
   background-color: #000;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   min-height: calc(100% - 2em);
+  font-size:1em;
 }
 h1{
   font-weight:bold;
@@ -43,7 +46,11 @@ a.switch{
   text-transform: uppercase;
   text-align: left;
   @media #{$medium-and-down} {
-    left:calc(50% - 1em);
+    left:calc(50% - 1.5em);
+    font-size: 1.5em;
+  }
+  @media #{$small-and-down} {
+    top:1.5em;
   }
   &.close{
     color:$color-link;
@@ -66,7 +73,7 @@ div.container{
       top:auto;
       left:auto;      
       padding: 1em;
-      margin: 3em auto 0 5em;
+      margin: 5em auto 0 5em;
       width: calc(100% - 12em);
       height: 170px;
     }
@@ -82,8 +89,17 @@ div.container{
         float:left;
         width:100%;
         text-align: left;
+        @media #{$medium-and-down} {
+          text-align: center;
+        }
         a{
           color:$color-link;
+          @media #{$medium-and-down} {
+            font-size:1.3em;
+          }
+          @media #{$small-and-down} {
+            font-size:1em;
+          }
           &.active{
             color:$color-link-active;
           }
@@ -107,10 +123,17 @@ div.container{
     }
     div#content{
       @media #{$medium-and-down} {
-        margin: 4em 0 auto 5em;
+        margin: 6em 0 auto 5em;
         &.small{
-          margin: 2em 0 auto 5em;
+          margin: 0em 0 auto 5em;
+          @media #{$small-and-down} {
+            margin: 0em 0 auto 2.5em;
+          }
         }
+      }
+      @media #{$small-and-down} {
+        width: calc(100% - 5em);
+        margin: 6em 0 auto 2.5em;
       }
 
     }   
@@ -136,6 +159,10 @@ div.container{
       @media #{$medium-and-down} {
         margin: 1em 0 1em 5em;
       }
+      @media #{$small-and-down} {
+        width: calc(100% - 5em);
+        margin: 1em 0 1em 2.5em;
+      }
     }
     div.pagination{
       height:2.5em;      
@@ -153,6 +180,8 @@ div.container{
             color:$color-link-active;
             text-transform:uppercase;
             text-decoration: underline;
+            @media #{$medium-and-down} {
+            }
             &.hidden{
               display:none;
             }

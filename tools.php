@@ -64,7 +64,8 @@ Class Data
 		$layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $htmlRecup);
 		$html = str_get_html($htmlRecup);
 		$h1 = $html->find('h1', 0)->innertext;	
-		$records = array("file"  => $file,"titrePage"  => $h1, "content" => $layout);
+		$fileName = pathinfo($this->getPath().$file, PATHINFO_FILENAME);
+		$records = array("file"  => $file,"titrePage"  => $h1, "content" => $layout, "fileName" => $fileName);
 		return $records;
 	}
 
