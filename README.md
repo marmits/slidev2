@@ -1,7 +1,7 @@
-# slidev2 V1
+# slidev2
 slide pure javascript version serveur
 - gère le history.state
-- ajout de la navigation par menu
+- navigation par menu et pagination
 
 # instructions
 - copier le répertoire dans répertoire du serveur
