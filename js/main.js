@@ -206,7 +206,9 @@ class Slide {
             let setNavMenu = function(content){
                 let nbElements = content.length;
                 Slide.setElementVisibility(Slide.navigation[0], false);
-                Slide.navigation[0].querySelectorAll('ul')[0].innerHTML="";
+                Slide.navigation[0].innerHTML="";
+                var ul = document.createElement("UL");
+                Slide.navigation[0].appendChild(ul);
                 let i = 0;
                                 
                 for (var element = 0, l = nbElements; element < l; element++) {
