@@ -10,3 +10,4 @@ slide pure javascript version serveur
 
 # notices 
 Javascript, Sass, Html, Php
+un tag H1 obligatoire dans les fichiers /files/file.html
