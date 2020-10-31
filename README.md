@@ -1,11 +1,12 @@
-# slidev2 V1
+#  slidev2 AJAX FILES 
 slide pure javascript version serveur
 - gère le history.state
-- ajout de la navigation par menu
+- navigation par menu et pagination
+- reupération du contenu via une liste de fichiers html
 
 # instructions
 - copier le répertoire dans répertoire du serveur
-- fichier htaccess avec le meme chemin depuis la racine dans le RewriteRule
+- fichier htaccess avec le même chemin depuis la racine dans le RewriteRule
 
 # notices 
-- dans le html, ne pas placer de balises ```<a>``` dans la navigation ul > li
+Javascript, Sass, Html, Php
