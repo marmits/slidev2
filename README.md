@@ -1,4 +1,4 @@
-# slidev2 AJAX FILES
+# *** TESTING ***  slidev2 AJAX FILES 
 slide pure javascript version serveur
 - gère le history.state
 - navigation par menu et pagination
