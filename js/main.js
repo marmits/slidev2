@@ -23,7 +23,7 @@ class Slide {
         this.auteur = "Geoffroy Stolaric";   
     };
 
-    bindTest = function (url = null){        
+    bindTest = function (url = null){
         let that = this;
         let results = [];
         that.testajax[0].addEventListener('click', function(e){
@@ -122,31 +122,33 @@ class Slide {
         };        
     };
 
-    ajaxInfos = async function(url = null, callback){
-
+    ajaxInfos = async function(url){
         let that = this;
         let datas = [];
         var xhr=new XMLHttpRequest();
-        xhr.open("GET",url);
-        xhr.responseType = "json";
-        xhr.send();
-        xhr.onload = function(){
-            if (xhr.status != 200){ 
-                console.log("Erreur " + xhr.status + " : " + xhr.statusText);
-            }else{ 
-                let datas = [];
-                let status = xhr.status;
-                let obj = JSON.parse(JSON.stringify(xhr.response));
-                callback(obj, that);
-            }
-        };
-        xhr.onerror = function(){
-            console.log("la requête a echoué");
-        };        
+
+        var res = new Promise(function (resolve, reject) {
+            xhr.open("GET",url);
+            xhr.responseType = "json";
+            xhr.send();
+            xhr.onload = function(){
+                if (xhr.status != 200){ 
+                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+                }else{ 
+                    let datas = [];
+                    let status = xhr.status;
+                    let obj = JSON.parse(JSON.stringify(xhr.response));
+                    resolve(obj);
+                }
+            };
+            xhr.onerror = function(){
+                reject("la requête a echoué");
+            };
+        });
+        return res;
     };
 
     ajaxFile = async function(url = null, callback){
-        
         let that = this;
         let datas = [];
         let infos = {};
@@ -175,29 +177,27 @@ class Slide {
         };        
     };
 
-    error = function(content){
+    error = function(content, value){
         let that = this;
         let error = {
             message:"",
             reponse:false
         };
-        if(content.length === 0){
-                                
-            that.ajaxInfos(that.urlInfos, getInfos);
-            function getInfos(content, Slide){ 
-
-                 that.dirPath = content.pathDir;
-                 
-            }
+        if(content.length === 0){ 
             that.setElementVisibility(that.paginationButtons[0], false);
             that.setElementVisibility(that.paginationButtons[1], false);
-
             error = {
-                message:"élement(s) manquant(s) dans le dossier datas\nVeuillez ajouter un dossier et un fichier index.html\ndans le répertoire \"datas\"",
+                message:"élement(s) manquant(s) dans le dossier datas\nVeuillez ajouter un dossier et un fichier index.html\ndans le répertoire \""+value+"\"",
                 reponse:true
             }
         }
         return error;
+    };
+
+    create = function (nom){
+        let that = this;
+        that.titreSite = nom;
+        window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
     };
     
     init = function(){
@@ -206,9 +206,7 @@ class Slide {
         
         that.ajaxDirectories(that.urlDir, getDatas);
         function getDatas(content, Slide){ 
-
-            
-      
+                  
             let getRequest = function(content){
                 let queryString = window.location.search;
                 let searchParams = new URLSearchParams(queryString);
@@ -235,7 +233,7 @@ class Slide {
                 return depart;
             };
 
-            let setDatas = function(element){                   
+            let setDatas = function(element){
                 let titleSlide = Slide.contenu[element].titrePage;
                 let urlSlide = Slide.contenu[element].url;    
                 
@@ -263,8 +261,7 @@ class Slide {
                     div.setAttribute("url",content[0].fileName);
 
                     Slide.setElementVisibility(div, true);
-                }
-                
+                }                
             };
             
             let setNavMenu = function(content){
@@ -349,30 +346,24 @@ class Slide {
             };
                               
 
-            Slide.contenu = content;            
-            let errorScript = Slide.error(Slide.contenu);
-            if(errorScript.reponse === true){
-                alert(errorScript.message);
-                return;
-            }
-            let request = getRequest(content);
-            Slide.pageActive = request;
-            
-            setDatas(request);  
-            setNavMenu(content); 
-            display(content);            
-            bindPagination(request);
-            navHistory();
-            Slide.bindSwitchMenu();
-            Slide.bindTest(that.urlDir);
-            
+            Slide.contenu = content;     
+          
+            that.ajaxInfos(that.urlInfos).then((value) => {                
+                if(that.error(Slide.contenu, value.pathDir).reponse === true){
+                    alert(that.error(Slide.contenu, value.pathDir).message);
+                } else {
+                    let request = getRequest(content);
+                    Slide.pageActive = request;                
+                    setDatas(request);  
+                    setNavMenu(content); 
+                    display(content);            
+                    bindPagination(request);
+                    navHistory();
+                    Slide.bindSwitchMenu();
+                    Slide.bindTest(that.urlDir);
+                }
+            });
         };        
-    };
-
-    create = function (nom){
-        let that = this;
-        that.titreSite = nom;
-        window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
     };
 };
 
