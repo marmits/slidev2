@@ -89,37 +89,40 @@ class Slide {
         }
     };
 
-    ajaxDirectories = async function(url = null, callback){
+    ajaxDirectories = async function(url){
         let that = this;
         let datas = [];
         var xhr=new XMLHttpRequest();
-        xhr.open("GET",url);
-        xhr.responseType = "json";
-        xhr.send();
-        xhr.onload = function(){
-            if (xhr.status != 200){ 
-                console.log("Erreur " + xhr.status + " : " + xhr.statusText);
-            }else{ 
-                let datas = [];
-                let status = xhr.status;
-                let obj = JSON.parse(JSON.stringify(xhr.response));
+        var res = new Promise(function (resolve, reject) {
+            xhr.open("GET",url);
+            xhr.responseType = "json";
+            xhr.send();
+            xhr.onload = function(){
+                if (xhr.status != 200){ 
+                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+                }else{ 
+                    let datas = [];
+                    let status = xhr.status;
+                    let obj = JSON.parse(JSON.stringify(xhr.response));
 
-                for (var element = 0, l = obj.length; element < l; element++) {
+                    for (var element = 0, l = obj.length; element < l; element++) {
 
-                    let infos = {};
-                    let titrePage = obj[element];
-                    infos.titrePage = titrePage;
-                    infos.url = titrePage;
-                    datas[element] = infos;
-                   
-                };
-                that.directories = datas;
-                callback(datas, that);
-            }
-        };
-        xhr.onerror = function(){
-            console.log("la requête a echoué");
-        };        
+                        let infos = {};
+                        let titrePage = obj[element];
+                        infos.titrePage = titrePage;
+                        infos.url = titrePage;
+                        datas[element] = infos;
+                        
+                    };
+
+                    resolve(datas);
+                }
+            };
+            xhr.onerror = function(){
+                reject("la requête a echoué");
+            };
+        });
+        return res;        
     };
 
     ajaxInfos = async function(url){
@@ -199,171 +202,206 @@ class Slide {
         that.titreSite = nom;
         window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
     };
-    
-    init = function(){
-        let that = this;
-        let depart = 0;
+
+    getRequest = function(content){
         
-        that.ajaxDirectories(that.urlDir, getDatas);
-        function getDatas(content, Slide){ 
-                  
-            let getRequest = function(content){
-                let queryString = window.location.search;
-                let searchParams = new URLSearchParams(queryString);
-                let pageRequest = null;
-                let pages = [];
-                if(searchParams.has("request") === true){
-                    pageRequest = searchParams.get("request").split("/")[2];             
-                }        
-                
+        let queryString = window.location.search;
+        let searchParams = new URLSearchParams(queryString);
+        let pageRequest = null;
+        let pages = [];
+        var depart = 0;
+        var res = new Promise(function (resolve, reject) {
+            if(searchParams.has("request") === true){
+                pageRequest = searchParams.get("request").split("/")[2];    
                 if(pageRequest){
-                    Slide.dirActif = pageRequest;
+                    
                     for (var element = 0, l = content.length; element < l; element++) {
                         pages[element] = content[element].titrePage;
                     }    
 
                     depart = pages.indexOf(pageRequest);
-                } 
 
+                } 
                 if(depart === -1){
                     depart = 0;
-                    Slide.dirActif = content[0];
-                }
-                    
-                return depart;
-            };
-
-            let setDatas = function(element){
-                let titleSlide = Slide.contenu[element].titrePage;
-                let urlSlide = Slide.contenu[element].url;    
-                
-                Slide.oPageInfo.title = Slide.titreSite + " - " + titleSlide;
-                Slide.oPageInfo.url = urlSlide;
-                Slide.oPageInfo.page=element;
-                history.pushState(Slide.oPageInfo, Slide.oPageInfo.title, Slide.oPageInfo.url);
-            };
-
-            let setSlide = function(page){
-                let nbElements = content.length; 
-                
-
-                Slide.ajaxFile("tools.php?param=liste_file&file="+content[page].url, getHtml);
-                
-                function getHtml(content, Slide){ 
-                    
-                    Slide.content.innerHTML="";                            
-                    var div = document.createElement("DIV");     
-                    div.innerHTML = content[0].content;
-                    Slide.setElementVisibility(div, false);
-                    Slide.content.appendChild(div);       
-                    div.setAttribute("title", content[0].titrePage);
-                    div.setAttribute("class","rect");
-                    div.setAttribute("url",content[0].fileName);
-
-                    Slide.setElementVisibility(div, true);
-                }                
-            };
+                }     
+            resolve(depart);   
+            } else{
+                reject("erreur");
+            }
             
-            let setNavMenu = function(content){
-                let nbElements = content.length;
-                Slide.setElementVisibility(Slide.navigation[0], false);
-                Slide.navigation[0].innerHTML="";
-                var ul = document.createElement("UL");
-                Slide.navigation[0].appendChild(ul);
-                let i = 0;
-                                
-                for (var element = 0, l = nbElements; element < l; element++) {
-                    
-                    var textnode = document.createTextNode(content[element].titrePage);              
-                    var li = document.createElement("LI");                 
-                    var a = document.createElement("A");      
-                    a.appendChild(textnode);                      
-                    Slide.navigation[0].querySelectorAll('ul')[0].appendChild(li).appendChild(a);          
-                    a.setAttribute("href", content[element].url);
-                    a.setAttribute("class","");
+        }); 
+        return res;
+    };
 
-                    if(element === Slide.pageActive){
-                        a.setAttribute("class","active");
-                    }
-                    bindNavigation(a, i);
-                i++;
-                };     
-            };
+    setDatas = function(element){
+        let that = this;
 
-            let display = function(contenu){
-                document.title = window.history.state.title;       
-                Slide.setElementVisibility(Slide.paginationButtons[0], true);
-                Slide.setElementVisibility(Slide.paginationButtons[1], true);
-                if(Slide.pageActive === 0){
-                    Slide.setElementVisibility(Slide.paginationButtons[0], false);
-                    that.paginationButtons[1].setAttribute("href",Slide.contenu[Slide.pageActive+1].url);
+        that.pageActive = element;
+        let titleSlide = that.directories[element].titrePage;
+        let urlSlide = that.directories[element].url;    
+        
+        that.oPageInfo.title = that.titreSite + " - " + titleSlide;
+        that.oPageInfo.url = urlSlide;
+        that.oPageInfo.page = element;
+
+        history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
+
+
+
+
+    };
+
+    setSlide = function(page){
+        let that = this;
+        let nbElements = that.directories.length; 
+        
+
+        that.ajaxFile("tools.php?param=liste_file&file="+that.directories[page].url, getHtml);
+        
+        function getHtml(content, Slide){ 
+            
+            that.content.innerHTML="";                            
+            var div = document.createElement("DIV");     
+            div.innerHTML = content[0].content;
+            that.setElementVisibility(div, false);
+            that.content.appendChild(div);       
+            div.setAttribute("title", content[0].titrePage);
+            div.setAttribute("class","rect");
+            div.setAttribute("url",content[0].fileName);
+
+            that.setElementVisibility(div, true);
+        }                
+    };
+    
+    setNavMenu = function(content){
+        let that = this;
+        let nbElements = content.length;
+        that.setElementVisibility(that.navigation[0], false);
+        that.navigation[0].innerHTML="";
+        var ul = document.createElement("UL");
+        that.navigation[0].appendChild(ul);
+        let i = 0;
+               
+        for (var element = 0, l = nbElements; element < l; element++) {
+            
+            var textnode = document.createTextNode(content[element].titrePage);              
+            var li = document.createElement("LI");                 
+            var a = document.createElement("A");      
+            a.appendChild(textnode);                      
+            that.navigation[0].querySelectorAll('ul')[0].appendChild(li).appendChild(a);          
+            a.setAttribute("href", content[element].url);
+            a.setAttribute("class","");
+
+            if(element === that.pageActive){
+                a.setAttribute("class","active");
+            }
+            that.bindNavigation(a, i);
+        i++;
+        };
+
+      
+    };
+
+    display = function(element){
+
+        let that = this;
+        document.title = window.history.state.title;       
+        that.setElementVisibility(that.paginationButtons[0], true);
+        that.setElementVisibility(that.paginationButtons[1], true);
+
+        if(that.pageActive === 0){
+            that.setElementVisibility(that.paginationButtons[0], false);
+            that.paginationButtons[1].setAttribute("href",that.directories[that.pageActive+1].url);
+        } 
+        if(that.pageActive === (that.directories.length - 1)){
+            that.setElementVisibility(that.paginationButtons[1], false);
+            that.paginationButtons[0].setAttribute("href",that.directories[that.pageActive-1].url);
+        }   
+
+        that.setSlide(that.pageActive);                           
+        that.setStateNavigation(that.pageActive);
+
+ 
+    };
+
+    bindPagination = function(compteur){
+        let that = this;
+        let page = "";
+        that.paginationButtons.forEach(function(button){
+            button.addEventListener('click', function(e){
+                e.stopPropagation();
+                e.preventDefault();
+                that.setElementVisibility(Slide.elems, false);
+                if((button.getAttribute("class") === "prev") && (that.pageActive !== 0)){
+                    that.pageActive--;
                 } 
-                if(Slide.pageActive === (Slide.contenu.length - 1)){
-                    Slide.setElementVisibility(Slide.paginationButtons[1], false);
-                    that.paginationButtons[0].setAttribute("href",Slide.contenu[Slide.pageActive-1].url);
-                }   
-
-                setSlide(Slide.pageActive);                           
-                Slide.setStateNavigation(Slide.pageActive);
-            };
-
-            let bindPagination = function(compteur){
-                let page = "";
-                Slide.paginationButtons.forEach(function(button){
-                    button.addEventListener('click', function(e){
-                        e.stopPropagation();
-                        e.preventDefault();
-                        Slide.setElementVisibility(Slide.elems, false);
-                        if((button.getAttribute("class") === "prev") && (Slide.pageActive !== 0)){
-                            Slide.pageActive--;
-                        } 
-                        if((button.getAttribute("class") === "next") && (Slide.pageActive !== (Slide.contenu.length - 1))){
-                            Slide.pageActive++;
-                        } 
-                        setDatas(Slide.pageActive);                
-                        display(Slide.pageActive);    
-                    });
-                });
-            };
-
-            let navHistory = function(){
-                window.onpopstate=function (oEvent){
-                    if(window.history.state !== null){
-                        Slide.pageActive = window.history.state.page;
-                        display(Slide.pageActive); 
-                    }
-                };
-            };
-
-            let bindNavigation = function(link, page){
-                link.addEventListener('click', function(e){
-                    e.stopPropagation();
-                    e.preventDefault();                  
-                    Slide.pageActive = page;   
-                    setDatas(page); 
-                    display(page);
-                });
-            };
-                              
-
-            Slide.contenu = content;     
-          
-            that.ajaxInfos(that.urlInfos).then((value) => {                
-                if(that.error(Slide.contenu, value.pathDir).reponse === true){
-                    alert(that.error(Slide.contenu, value.pathDir).message);
-                } else {
-                    let request = getRequest(content);
-                    Slide.pageActive = request;                
-                    setDatas(request);  
-                    setNavMenu(content); 
-                    display(content);            
-                    bindPagination(request);
-                    navHistory();
-                    Slide.bindSwitchMenu();
-                    Slide.bindTest(that.urlDir);
-                }
+                if((button.getAttribute("class") === "next") && (that.pageActive !== (that.directories.length - 1))){
+                    that.pageActive++;
+                } 
+                that.setDatas(that.pageActive);                
+                that.display(that.pageActive);    
             });
-        };        
+        });
+    };
+
+    navHistory = function(){
+        let that = this;
+        window.onpopstate=function (oEvent){
+            if(window.history.state !== null){
+                that.pageActive = window.history.state.page;
+                that.display(that.pageActive); 
+            }
+        };
+    };
+
+    bindNavigation = function(link, page){
+        let that = this;
+        link.addEventListener('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();                  
+            that.pageActive = page;   
+            that.setDatas(page); 
+            that.display(page);
+        });
+    };
+    
+    init = function(){
+        let that = this;
+        let depart = 0;
+        
+        that.ajaxDirectories(that.urlDir)
+       
+        .then((datas) =>  {
+            that.directories = datas;
+            return that.ajaxInfos(that.urlDir)
+            .then((value) => {
+                if(that.error(that.directories, value.pathDir).reponse === true){
+                    alert(that.error(that.directories, value.pathDir).message);
+                    return;
+                } 
+            });
+        })
+        .then((request) =>  {
+            return that.getRequest(that.directories);
+        })
+        .then((element) =>  {   
+            that.setDatas(element);
+            that.setNavMenu(that.directories);
+            that.display(element);
+            that.bindPagination(element);
+            that.navHistory();
+            that.bindSwitchMenu();
+        });
+
+        
+        
+            
+        
+        
+
+        
+               
     };
 };
 
