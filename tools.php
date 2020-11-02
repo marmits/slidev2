@@ -15,16 +15,27 @@ Class Data
 
 	private $path;
 	private $ListFiles=[];
+	private $listDir=[];
 	private $parametre;
 
 	function __construct($param = null)
 	{
 		$this->path =  get_include_path()."files/";
 		$this->parametre = $param;
+		$this->datasDir = get_include_path()."datas/";
 	}
 
 	function getPath(){
 		return $this->path;
+	}
+
+	function getdatasDirPath(){
+		return $this->datasDir;
+	}
+
+	function getInfos(){
+		$datas["pathDir"] = $this->getdatasDirPath();
+		return $datas;
 	}
 
 	function getFiles(){
@@ -51,6 +62,37 @@ Class Data
 		return $this->ListFiles;
 	}
 
+	function getDirectories(){
+		$path = $this->datasDir;
+		if($dp = opendir($path)){
+			$i=0;
+			while (false !== ($file = readdir($dp))){
+				if ($file != '.' && $file != '..'){	
+					//var_dump($this->datasDir.$file);
+					if(is_dir($this->datasDir.$file)){
+						$this->listDir[$i]=$file;
+						$i++;
+					}
+				}
+			}
+			closedir($dp);
+			$list_tri = 'ASC';
+
+			if(count($this->listDir)!=0){
+				if($list_tri == 'DESC'){
+					rsort($this->listDir);
+				}
+				else{
+					sort($this->listDir);
+				}
+			}
+		}
+		
+		return $this->listDir;
+	}
+
+
+
 	function readFile($file){
 		return file_get_contents($file);
 	}
@@ -65,7 +107,7 @@ Class Data
 		$html = str_get_html($htmlRecup);
 		$h1 = $html->find('h1', 0)->innertext;	
 		$fileName = pathinfo($this->getPath().$file, PATHINFO_FILENAME);
-		$records = array("file"  => $file,"titrePage"  => $h1, "content" => $layout, "fileName" => $fileName);
+		$records = array("file"  => $path.$file,"titrePage"  => $h1, "content" => $layout, "fileName" => $fileName);
 		return $records;
 	}
 
@@ -78,10 +120,10 @@ Class Data
 		return $datas;
 	}
 
-	function getFileContent($file){
-		
+	function getFileContent($dir){
+
 		$datas = [];
-		$datas[0] = $this->extractContent($this->path, $file);		
+		$datas[0] = $this->extractContent($this->datasDir.$dir."/", "index.html");		
 			
 		
 		return $datas;
@@ -102,6 +144,10 @@ Class Data
 			return $this->getAllContent();		
 		} elseif($this->parametre === "liste_file")  {
 			return $this->getFileContent($file);
+		} elseif($this->parametre === "liste_directory")  {
+			return $this->getDirectories();
+		} elseif($this->parametre === "getInfos")  {
+			return $this->getInfos();
 		}
 	}
 
@@ -117,6 +163,8 @@ if(isset($_GET["param"])){
 	}
 }
 $datas = new Data($param);
+
+
 //print_r($datas->getAllContent());
 
 //renvoie les noms des fichiers pour construire le menu

@@ -2,8 +2,11 @@ class Slide {
 
     constructor() {
         this.urlPhp = "tools.php?param=liste_all";
+        this.urlDir = "tools.php?param=liste_directory";
+        this.urlInfos = "tools.php?param=getInfos";
         this.titreSite = document.title;
         this.pageActive = 0;
+        this.dirActif = null;
         this.content = document.getElementById('content');
         this.switchMenu = document.querySelectorAll('a.switch');
         this.paginationButtons = document.querySelectorAll('.pagination ul li a');
@@ -15,6 +18,8 @@ class Slide {
             url: location.href
         };
         this.contenu = [];  
+        this.directories = [];  
+        this.dirPath = "test dir path"; 
         this.auteur = "Geoffroy Stolaric";   
     };
 
@@ -24,8 +29,11 @@ class Slide {
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();      
-            console.log(that.contenu);
-        });    
+            that.ajaxDirectories(url, getDirectories);
+            function getDirectories(content, Slide){
+                console.log(content);
+            }
+        });   
     };
 
     setElementVisibility = function(element,visible){
@@ -80,8 +88,8 @@ class Slide {
             linksList[page].setAttribute("class","active");
         }
     };
-    
-    ajaxContent = async function(url = null, callback){
+
+    ajaxDirectories = async function(url = null, callback){
         let that = this;
         let datas = [];
         var xhr=new XMLHttpRequest();
@@ -94,19 +102,18 @@ class Slide {
             }else{ 
                 let datas = [];
                 let status = xhr.status;
-                let obj = JSON.parse(JSON.stringify(xhr.response));                
+                let obj = JSON.parse(JSON.stringify(xhr.response));
+
                 for (var element = 0, l = obj.length; element < l; element++) {
-                   let infos = {};
-                   let file = obj[element].file;
-                   let titrePage = obj[element].titrePage;
-                   let content = obj[element].content;
-                   let fileName = obj[element].fileName;
-                   infos.file = file;
-                   infos.titrePage = titrePage;
-                   infos.content = content;
-                   infos.url = fileName;
-                   datas[element] = infos;
+
+                    let infos = {};
+                    let titrePage = obj[element];
+                    infos.titrePage = titrePage;
+                    infos.url = titrePage;
+                    datas[element] = infos;
+                   
                 };
+                that.directories = datas;
                 callback(datas, that);
             }
         };
@@ -115,92 +122,149 @@ class Slide {
         };        
     };
 
+    ajaxInfos = async function(url = null, callback){
+
+        let that = this;
+        let datas = [];
+        var xhr=new XMLHttpRequest();
+        xhr.open("GET",url);
+        xhr.responseType = "json";
+        xhr.send();
+        xhr.onload = function(){
+            if (xhr.status != 200){ 
+                console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+            }else{ 
+                let datas = [];
+                let status = xhr.status;
+                let obj = JSON.parse(JSON.stringify(xhr.response));
+                callback(obj, that);
+            }
+        };
+        xhr.onerror = function(){
+            console.log("la requête a echoué");
+        };        
+    };
+
+    ajaxFile = async function(url = null, callback){
+        
+        let that = this;
+        let datas = [];
+        let infos = {};
+        let obj = null;
+        var xhr=new XMLHttpRequest();
+        xhr.open("GET",url);
+        xhr.responseType = "json";
+        xhr.send();
+        xhr.onload = function(){
+            if (xhr.status != 200){ 
+                console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+            }else{ 
+                let status = xhr.status;
+                let obj = JSON.parse(JSON.stringify(xhr.response));
+                if(obj !== null){
+                    for (var element = 0, l = obj.length; element < l; element++) {
+                        infos = obj[element];
+                        datas[element] = infos;                       
+                    };
+                    callback(datas, that);
+                }
+            }
+        };
+        xhr.onerror = function(){
+            console.log("la requête a echoué");
+        };        
+    };
+
+    error = function(content){
+        let that = this;
+        let error = {
+            message:"",
+            reponse:false
+        };
+        if(content.length === 0){
+                                
+            that.ajaxInfos(that.urlInfos, getInfos);
+            function getInfos(content, Slide){ 
+
+                 that.dirPath = content.pathDir;
+                 
+            }
+            that.setElementVisibility(that.paginationButtons[0], false);
+            that.setElementVisibility(that.paginationButtons[1], false);
+
+            error = {
+                message:"élement(s) manquant(s) dans le dossier datas\nVeuillez ajouter un dossier et un fichier index.html\ndans le répertoire \"datas\"",
+                reponse:true
+            }
+        }
+        return error;
+    };
+    
     init = function(){
         let that = this;
         let depart = 0;
-        that.ajaxContent(that.urlPhp, getDatas); 
+        
+        that.ajaxDirectories(that.urlDir, getDatas);
         function getDatas(content, Slide){ 
 
-            let error = function(content){
-                let error = {
-                    message:"",
-                    reponse:false
-                };
-                if(content.length === 0){
-                    Slide.setElementVisibility(Slide.paginationButtons[0], false);
-                    Slide.setElementVisibility(Slide.paginationButtons[1], false);
-                    error = {
-                        message:"élement(s) manquant(s) dans le dossier files",
-                        reponse:true
-                    }
-                }
-                return error;
-            };
+            
       
             let getRequest = function(content){
                 let queryString = window.location.search;
                 let searchParams = new URLSearchParams(queryString);
                 let pageRequest = null;
+                let pages = [];
                 if(searchParams.has("request") === true){
                     pageRequest = searchParams.get("request").split("/")[2];             
-                }               
-                let request = null;                   
-                for (var element = 0, l = content.length; element < l; element++) {              
-                    if(pageRequest === content[element].url){                      
-                        request = element;
-                    }
-                };
+                }        
+                
+                if(pageRequest){
+                    Slide.dirActif = pageRequest;
+                    for (var element = 0, l = content.length; element < l; element++) {
+                        pages[element] = content[element].titrePage;
+                    }    
 
-                if(request === null){     
-                    switch(depart){
-                        case depart === undefined :
-                            depart = 0;
-                            break;
-                        case depart > content.length : 
-                            depart = content.length - 1;
-                        break;
-                        default :
-                            if (isNaN(depart)){
-                            depart = 0;
-                            }
-                        break;
-                    }
-                }else{
-                    depart = request;
+                    depart = pages.indexOf(pageRequest);
+                } 
+
+                if(depart === -1){
+                    depart = 0;
+                    Slide.dirActif = content[0];
                 }
+                    
                 return depart;
             };
 
-            let setDatas = function(element){
+            let setDatas = function(element){                   
                 let titleSlide = Slide.contenu[element].titrePage;
-                let urlSlide = Slide.contenu[element].url;                 
+                let urlSlide = Slide.contenu[element].url;    
+                
                 Slide.oPageInfo.title = Slide.titreSite + " - " + titleSlide;
                 Slide.oPageInfo.url = urlSlide;
                 Slide.oPageInfo.page=element;
                 history.pushState(Slide.oPageInfo, Slide.oPageInfo.title, Slide.oPageInfo.url);
             };
 
-            let setSlide = function(content){
-                let nbElements = content.length;
-                Slide.content.innerHTML="";
-                for (var element = 0, l = nbElements; element < l; element++) {
-                    var textnode = document.createTextNode(content[element].content)
+            let setSlide = function(page){
+                let nbElements = content.length; 
+                
+
+                Slide.ajaxFile("tools.php?param=liste_file&file="+content[page].url, getHtml);
+                
+                function getHtml(content, Slide){ 
+                    
+                    Slide.content.innerHTML="";                            
                     var div = document.createElement("DIV");     
-                    div.innerHTML = content[element].content;
+                    div.innerHTML = content[0].content;
                     Slide.setElementVisibility(div, false);
-                    Slide.content.appendChild(div);         
-                    div.setAttribute("title", content[element].titrePage);
+                    Slide.content.appendChild(div);       
+                    div.setAttribute("title", content[0].titrePage);
                     div.setAttribute("class","rect");
-                    div.setAttribute("url",content[element].url);
-                    Slide.setElementVisibility(div, false);
-                    if(element === Slide.pageActive){
-                        Slide.setElementVisibility(div, true);
-                    }                   
-                };   
-                if(error(Slide.contenu).reponse === true){
-                    alert(error(Slide.contenu).message);
-                    return;
+                    div.setAttribute("url",content[0].fileName);
+
+                    Slide.setElementVisibility(div, true);
                 }
+                
             };
             
             let setNavMenu = function(content){
@@ -229,20 +293,21 @@ class Slide {
                 };     
             };
 
-            let display = function(element){
+            let display = function(contenu){
                 document.title = window.history.state.title;       
                 Slide.setElementVisibility(Slide.paginationButtons[0], true);
                 Slide.setElementVisibility(Slide.paginationButtons[1], true);
-                if(element === 0){
+                if(Slide.pageActive === 0){
                     Slide.setElementVisibility(Slide.paginationButtons[0], false);
-                    that.paginationButtons[1].setAttribute("href",Slide.contenu[element+1].url);
+                    that.paginationButtons[1].setAttribute("href",Slide.contenu[Slide.pageActive+1].url);
                 } 
-                if(element === (Slide.contenu.length - 1)){
+                if(Slide.pageActive === (Slide.contenu.length - 1)){
                     Slide.setElementVisibility(Slide.paginationButtons[1], false);
-                    that.paginationButtons[0].setAttribute("href",Slide.contenu[element-1].url);
+                    that.paginationButtons[0].setAttribute("href",Slide.contenu[Slide.pageActive-1].url);
                 }   
-                setSlide(Slide.contenu);                           
-                Slide.setStateNavigation(element);
+
+                setSlide(Slide.pageActive);                           
+                Slide.setStateNavigation(Slide.pageActive);
             };
 
             let bindPagination = function(compteur){
@@ -282,18 +347,25 @@ class Slide {
                     display(page);
                 });
             };
-                                   
-            Slide.contenu = content;
-            setSlide(Slide.contenu);
-            setNavMenu(Slide.contenu); 
-            let request = getRequest(Slide.contenu);
+                              
+
+            Slide.contenu = content;            
+            let errorScript = Slide.error(Slide.contenu);
+            if(errorScript.reponse === true){
+                alert(errorScript.message);
+                return;
+            }
+            let request = getRequest(content);
             Slide.pageActive = request;
-            setDatas(Slide.pageActive); 
-            display(Slide.pageActive);    
-            bindPagination(Slide.pageActive);
+            
+            setDatas(request);  
+            setNavMenu(content); 
+            display(content);            
+            bindPagination(request);
             navHistory();
-            Slide.bindSwitchMenu(); 
-            Slide.bindTest();
+            Slide.bindSwitchMenu();
+            Slide.bindTest(that.urlDir);
+            
         };        
     };
 
@@ -308,3 +380,5 @@ const slideLuiggi = new Slide();
 if(slideLuiggi !== undefined){
      slideLuiggi.create("Luiggi's Slide");    
 }
+
+
