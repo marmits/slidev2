@@ -32,9 +32,24 @@ class Slide {
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();      
-            console.log(that.directories);
-            console.log(that.pageActive);
-            console.log(that.auteur);
+            
+            that.ajaxInfos(that.urlInfos)
+            .then((value) => {     
+                let dossiers = "";
+                for (var i = 0; i < that.directories.length; i++) {
+                    dossiers += that.directories[i].titrePage + ", ";
+                    if(i === (that.directories.length - 1)){
+                        dossiers += that.directories[i].titrePage;
+                    }
+                }
+                let result = "Répertoire des données: " + value.pathDir + "\n";                
+                result += "dossiers/pages: " + dossiers + "\n";
+                result += "page active indice N°:" + that.pageActive + "\n";
+                result += "page active: " + that.directories[that.pageActive].titrePage + "\n";
+                result +=  that.auteur + "\n";
+                console.log(result);    
+            });
+
             
         });   
     };
