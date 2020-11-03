@@ -2,7 +2,10 @@
 slide pure javascript version serveur
 - gère le history.state
 - navigation par menu et pagination
-- reupération du contenu via une liste de fichiers html contenu dans des dossiers
+- reupération du contenu via un repertoire "datas" contenant 
+ un dossier qui sera l'url de la page et le lien de la navigation
+ puis affichage du fichier index.html placé dans ce répertoire.
+
 
 # instructions
 - copier le répertoire dans répertoire du serveur
