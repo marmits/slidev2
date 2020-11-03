@@ -111,6 +111,7 @@ Class Data
 		$h1 = $html->find('h1', 0)->innertext;	
 		$fileName = pathinfo($this->getPath().$file, PATHINFO_FILENAME);
 		$records = array("file"  => $path.$file,"titrePage"  => $h1, "content" => $layout, "fileName" => $fileName);
+		$records = array("content" => $layout);
 		return $records;
 	}
 
@@ -139,7 +140,7 @@ Class Data
 	function getFileContent($dir){
 
 		$datas = [];
-		$datas[0] = $this->extractContent($this->datasDir.$dir."/", "index.html");		
+		$datas[0] = $this->extractContentLight($this->datasDir.$dir."/", "index.html");		
 			
 		
 		return $datas;

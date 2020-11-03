@@ -262,6 +262,7 @@ class Slide {
             that.setElementVisibility(div, false);
             that.content.appendChild(div);       
             div.setAttribute("class","rect");
+            div.setAttribute("file",content[0].file);
             that.setElementVisibility(div, true);
         }                
     };
