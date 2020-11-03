@@ -23,6 +23,12 @@ class Slide {
         this.auteur = "Geoffroy Stolaric";   
     };
 
+    create = function (nom){
+        let that = this;
+        that.titreSite = nom;
+        window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
+    };
+
     bindTest = function (url = null){
         let that = this;
         let results = [];
@@ -196,12 +202,6 @@ class Slide {
         return error;
     };
 
-    create = function (nom){
-        let that = this;
-        that.titreSite = nom;
-        window.addEventListener ? addEventListener("load", that.init(), false) : window.attachEvent ? attachEvent("onload", that.init()) : (onload = that.init());        
-    };
-
     getRequest = function(content){
         
         let queryString = window.location.search;
@@ -245,10 +245,6 @@ class Slide {
         that.oPageInfo.page = element;
 
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
-
-
-
-
     };
 
     setSlide = function(page){
@@ -268,7 +264,6 @@ class Slide {
             div.setAttribute("title", content[0].titrePage);
             div.setAttribute("class","rect");
             div.setAttribute("url",content[0].fileName);
-
             that.setElementVisibility(div, true);
         }                
     };
@@ -283,7 +278,6 @@ class Slide {
         let i = 0;
                
         for (var element = 0, l = nbElements; element < l; element++) {
-            
             var textnode = document.createTextNode(content[element].titrePage);              
             var li = document.createElement("LI");                 
             var a = document.createElement("A");      
@@ -298,12 +292,9 @@ class Slide {
             that.bindNavigation(a, i);
         i++;
         };
-
-      
     };
 
     display = function(element){
-
         let that = this;
         document.title = window.history.state.title;       
         that.setElementVisibility(that.paginationButtons[0], true);
@@ -320,8 +311,6 @@ class Slide {
 
         that.setSlide(that.pageActive);                           
         that.setStateNavigation(that.pageActive);
-
- 
     };
 
     bindPagination = function(compteur){
@@ -392,16 +381,7 @@ class Slide {
             that.navHistory();
             that.bindSwitchMenu();
             that.bindTest(that.urlDir);
-        });
-
-        
-        
-            
-        
-        
-
-        
-               
+        });        
     };
 };
 
