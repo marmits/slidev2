@@ -340,7 +340,7 @@ class Slide {
             button.addEventListener('click', function(e){
                 e.stopPropagation();
                 e.preventDefault();
-                that.setElementVisibility(Slide.elems, false);
+                that.setElementVisibility(that.elems, false);
                 if((button.getAttribute("class") === "prev") && (that.pageActive !== 0)){
                     that.pageActive--;
                 } 
