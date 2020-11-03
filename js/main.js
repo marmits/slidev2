@@ -31,8 +31,7 @@ class Slide {
         let results = [];
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
-            e.preventDefault();      
-            
+            e.preventDefault();              
             that.ajaxInfos(that.urlInfos)
             .then((value) => {     
                 let dossiers = "";
@@ -48,9 +47,7 @@ class Slide {
                 result += "page active: " + that.directories[that.pageActive].titrePage + "\n";
                 result +=  that.auteur + "\n";
                 console.log(result);    
-            });
-
-            
+            });            
         });   
     };
 
@@ -147,7 +144,6 @@ class Slide {
         let that = this;
         let datas = [];
         var xhr=new XMLHttpRequest();
-
         var res = new Promise(function (resolve, reject) {
             xhr.open("GET",url);
             xhr.responseType = "json";
@@ -219,7 +215,6 @@ class Slide {
     };
 
     getRequest = function(content){
-        
         let queryString = window.location.search;
         let searchParams = new URLSearchParams(queryString);
         let pageRequest = null;
