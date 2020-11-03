@@ -1,6 +1,6 @@
 class Slide {
 
-    constructor() {        
+    constructor() {
         this.urlDir = "tools.php?param=liste_directory";
         this.urlInfos = "tools.php?param=getInfos";
         this.titreSite = document.title;
@@ -41,9 +41,7 @@ class Slide {
             });            
         };
     };
-
     
-
     create = function (nom){
         let that = this;
         that.titreSite = nom;
@@ -56,9 +54,7 @@ class Slide {
             e.stopPropagation();
             e.preventDefault();              
             that.debug();          
-        });
-        
-
+        });        
     };
 
     setElementVisibility = function(element,visible){
@@ -230,13 +226,10 @@ class Slide {
             if(searchParams.has("request") === true){
                 pageRequest = searchParams.get("request").split("/")[2];    
                 if(pageRequest){
-                    
                     for (var element = 0, l = content.length; element < l; element++) {
                         pages[element] = content[element].titrePage;
                     }    
-
                     depart = pages.indexOf(pageRequest);
-
                 } 
                 if(depart === -1){
                     depart = 0;
