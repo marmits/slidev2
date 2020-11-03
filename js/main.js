@@ -1,12 +1,10 @@
 class Slide {
 
-    constructor() {
-        this.urlPhp = "tools.php?param=liste_all";
+    constructor() {        
         this.urlDir = "tools.php?param=liste_directory";
         this.urlInfos = "tools.php?param=getInfos";
         this.titreSite = document.title;
         this.pageActive = 0;
-        this.dirActif = null;
         this.content = document.getElementById('content');
         this.switchMenu = document.querySelectorAll('a.switch');
         this.paginationButtons = document.querySelectorAll('.pagination ul li a');
@@ -19,8 +17,7 @@ class Slide {
         };
         this.contenu = [];  
         this.directories = [];  
-        this.dirPath = "test dir path"; 
-        this.auteur = "Geoffroy Stolaric";   
+        this.auteur = "Auteur: Geoffroy Stolaric";   
     };
 
     create = function (nom){
@@ -35,8 +32,24 @@ class Slide {
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();      
-            console.log(that.directories);
-            console.log(that.pageActive);
+            
+            that.ajaxInfos(that.urlInfos)
+            .then((value) => {     
+                let dossiers = "";
+                for (var i = 0; i < that.directories.length; i++) {
+                    dossiers += that.directories[i].titrePage + ", ";
+                    if(i === (that.directories.length - 1)){
+                        dossiers += that.directories[i].titrePage;
+                    }
+                }
+                let result = "Répertoire des données: " + value.pathDir + "\n";                
+                result += "dossiers/pages: " + dossiers + "\n";
+                result += "page active indice N°:" + that.pageActive + "\n";
+                result += "page active: " + that.directories[that.pageActive].titrePage + "\n";
+                result +=  that.auteur + "\n";
+                console.log(result);    
+            });
+
             
         });   
     };
@@ -156,33 +169,36 @@ class Slide {
         return res;
     };
 
-    ajaxFile = async function(url = null, callback){
+    ajaxFile = async function(url = null){
         let that = this;
         let datas = [];
         let infos = {};
         let obj = null;
         var xhr=new XMLHttpRequest();
-        xhr.open("GET",url);
-        xhr.responseType = "json";
-        xhr.send();
-        xhr.onload = function(){
-            if (xhr.status != 200){ 
-                console.log("Erreur " + xhr.status + " : " + xhr.statusText);
-            }else{ 
-                let status = xhr.status;
-                let obj = JSON.parse(JSON.stringify(xhr.response));
-                if(obj !== null){
-                    for (var element = 0, l = obj.length; element < l; element++) {
-                        infos = obj[element];
-                        datas[element] = infos;                       
-                    };
-                    callback(datas, that);
+        var res = new Promise(function (resolve, reject) {
+            xhr.open("GET",url);
+            xhr.responseType = "json";
+            xhr.send();
+            xhr.onload = function(){
+                if (xhr.status != 200){ 
+                    console.log("Erreur " + xhr.status + " : " + xhr.statusText);
+                }else{ 
+                    let status = xhr.status;
+                    let obj = JSON.parse(JSON.stringify(xhr.response));
+                    if(obj !== null){
+                        for (var element = 0, l = obj.length; element < l; element++) {
+                            infos = obj[element];
+                            datas[element] = infos;                       
+                        };
+                        resolve(datas);
+                    }
                 }
-            }
-        };
-        xhr.onerror = function(){
-            console.log("la requête a echoué");
-        };        
+            };
+            xhr.onerror = function(){
+                reject("la requête a echoué");
+            };
+        });
+        return res;        
     };
 
     error = function(content, value){
@@ -247,11 +263,9 @@ class Slide {
         history.pushState(that.oPageInfo, that.oPageInfo.title, that.oPageInfo.url);
     };
 
-    setSlide = function(page){
+    getHtml = function(content){
         let that = this;
-        let nbElements = that.directories.length; 
-        that.ajaxFile("tools.php?param=liste_file&file="+that.directories[page].url, getHtml);
-        function getHtml(content){ 
+        var res = new Promise(function (resolve, reject) {
             that.content.innerHTML="";                            
             var div = document.createElement("DIV");     
             div.innerHTML = content[0].content;
@@ -260,7 +274,18 @@ class Slide {
             div.setAttribute("class","rect");
             div.setAttribute("file",content[0].file);
             that.setElementVisibility(div, true);
-        }                
+            resolve("success");
+            reject("failed");
+        });
+        return res;
+    }
+
+    setSlide = function(page){
+        let that = this;        
+        that.ajaxFile("tools.php?param=liste_file&file="+that.directories[page].url)      
+        .then((datas) =>  {
+            return that.getHtml(datas);        
+        })                
     };
     
     setNavMenu = function(content){
@@ -358,7 +383,7 @@ class Slide {
        
         .then((datas) =>  {
             that.directories = datas;
-            return that.ajaxInfos(that.urlInfos)            
+            return that.ajaxInfos(that.urlInfos);
         })
         .then((value) => {
             if(that.error(that.directories, value.pathDir).reponse === true){
