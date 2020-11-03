@@ -370,8 +370,7 @@ class Slide {
         let that = this;
         let depart = 0;
         
-        that.ajaxDirectories(that.urlDir)
-       
+        that.ajaxDirectories(that.urlDir)       
         .then((datas) =>  {
             that.directories = datas;
             return that.ajaxInfos(that.urlInfos);
