@@ -153,6 +153,10 @@ div.container{
       &.hidden{
         display:none;
       }
+      img{
+        width: calc(100% - 2em);
+        padding: 1em;
+      }
     }
     div.pagination, div.footer{
     margin: 1em 0 1em 15em;
