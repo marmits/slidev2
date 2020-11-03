@@ -102,7 +102,7 @@ Class Data
 		if (file_exists($file)) {
 			$contenu = file_get_contents($file);
 		} else {
-			$contenu = "<strong>pas de contenu : ".$file." manquant</strong>";
+			$contenu = "<h1>\"".$file."\" manquant</h1>";
 		}
 		return $contenu;
 	}

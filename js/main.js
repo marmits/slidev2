@@ -251,7 +251,7 @@ class Slide {
         let that = this;
         let nbElements = that.directories.length; 
         that.ajaxFile("tools.php?param=liste_file&file="+that.directories[page].url, getHtml);
-        function getHtml(content, Slide){ 
+        function getHtml(content){ 
             that.content.innerHTML="";                            
             var div = document.createElement("DIV");     
             div.innerHTML = content[0].content;
