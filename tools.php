@@ -6,13 +6,8 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Paris');
 require_once('simple_html_dom.php');
 
-
-
-
-
 Class Data
 {
-
 	private $path;
 	private $ListFiles=[];
 	private $listDir=[];
@@ -50,7 +45,6 @@ Class Data
 		}
 		closedir($dp);
 		$list_tri = 'ASC';
-
 		if(count($this->ListFiles)!=0){
 			if($list_tri == 'DESC'){
 				rsort($this->ListFiles);
@@ -89,16 +83,11 @@ Class Data
 					sort($this->listDir);
 				}
 			}
-		}
-		
+		}		
 		return $this->listDir;
 	}
 
-
-
 	function readFile($file){
-		
-
 		if (file_exists($file)) {
 			$contenu = file_get_contents($file);
 		} else {
@@ -129,14 +118,12 @@ Class Data
 		$doc1->loadHTML($contentFile);
 		$htmlRecup = $doc1->saveHTML();
 		$layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $htmlRecup);
-
 		$fileName = pathinfo($this->getPath().$file, PATHINFO_FILENAME);
 		$records = array("file"  => $path.$file, "content" => $layout, "fileName" => $fileName);
 		return $records;
 	}
 
-	function getAllContent(){
-		
+	function getAllContent(){		
 		$datas = [];
 		foreach ($this->getFiles() as $key => $file) {		
 			$datas[$key] = $this->extractContent($this->path, $file);
@@ -145,11 +132,8 @@ Class Data
 	}
 
 	function getFileContent($dir){
-
 		$datas = [];
-		$datas[0] = $this->extractContentLight($this->datasDir.$dir."/", "index.html");		
-			
-		
+		$datas[0] = $this->extractContentLight($this->datasDir.$dir."/", "index.html");			
 		return $datas;
 	}
 
@@ -174,8 +158,6 @@ Class Data
 			return $this->getInfos();
 		}
 	}
-
-
 }
 header('Content-type:application/json;charset=utf-8');
 $param = null;
@@ -187,15 +169,4 @@ if(isset($_GET["param"])){
 	}
 }
 $datas = new Data($param);
-
-
-//print_r($datas->getAllContent());
-
-//renvoie les noms des fichiers pour construire le menu
 echo json_encode($datas->getResult($file));
-
-// renvoie tous pour test à transformer en inviduel pour le click menu
-//echo json_encode($datas->getAllContents());
-
-
-// a faire ->
