@@ -97,7 +97,14 @@ Class Data
 
 
 	function readFile($file){
-		return file_get_contents($file);
+		
+
+		if (file_exists($file)) {
+			$contenu = file_get_contents($file);
+		} else {
+			$contenu = "<strong>pas de contenu : ".$file." manquant</strong>";
+		}
+		return $contenu;
 	}
 
 	function extractContent($path, $file){

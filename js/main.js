@@ -256,6 +256,7 @@ class Slide {
         
         function getHtml(content, Slide){ 
             
+            
             that.content.innerHTML="";                            
             var div = document.createElement("DIV");     
             div.innerHTML = content[0].content;
