@@ -293,7 +293,6 @@ class Slide {
     };
 
     display = function(element){
-        console.log(element);
         let that = this;
         document.title = window.history.state.title;       
         that.setElementVisibility(that.paginationButtons[0], true);
