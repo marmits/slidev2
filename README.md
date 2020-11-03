@@ -1,4 +1,5 @@
-# slidev2 -> slidev2-1.0.3
+# slidev2 -> slidev2-1.0.3 
+ [slidev2-1.0.3](https://github.com/marmits/slidev2/archive/v1.0.3.zip)  
 slide pure javascript version serveur
 - gère le history.state
 - navigation par menu et pagination
