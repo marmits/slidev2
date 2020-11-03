@@ -6,13 +6,8 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Paris');
 require_once('simple_html_dom.php');
 
-
-
-
-
 Class Data
 {
-
 	private $path;
 	private $ListFiles=[];
 	private $parametre;
@@ -31,7 +26,7 @@ Class Data
 		$path = $this->getPath();
 		$dp = opendir($path);
 		$i=0;
-		while ( $file = readdir($dp) ){
+		while (false !== ($file = readdir($dp))){			
 			if ($file != '.' && $file != '..'){
 				$this->ListFiles[$i]=$file;
 				$i++;
@@ -69,8 +64,7 @@ Class Data
 		return $records;
 	}
 
-	function getAllContent(){
-		
+	function getAllContent(){		
 		$datas = [];
 		foreach ($this->getFiles() as $key => $file) {		
 			$datas[$key] = $this->extractContent($this->path, $file);
@@ -78,12 +72,9 @@ Class Data
 		return $datas;
 	}
 
-	function getFileContent($file){
-		
+	function getFileContent($file){		
 		$datas = [];
 		$datas[0] = $this->extractContent($this->path, $file);		
-			
-		
 		return $datas;
 	}
 
@@ -104,8 +95,6 @@ Class Data
 			return $this->getFileContent($file);
 		}
 	}
-
-
 }
 header('Content-type:application/json;charset=utf-8');
 $param = null;
@@ -117,13 +106,4 @@ if(isset($_GET["param"])){
 	}
 }
 $datas = new Data($param);
-//print_r($datas->getAllContent());
-
-//renvoie les noms des fichiers pour construire le menu
 echo json_encode($datas->getResult($file));
-
-// renvoie tous pour test à transformer en inviduel pour le click menu
-//echo json_encode($datas->getAllContents());
-
-
-// a faire ->
