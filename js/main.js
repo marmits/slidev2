@@ -73,20 +73,22 @@ class Slide {
 
     bindSwitchMenu = function(){
         let that = this;
-        let navigation = that.navigation[0];
-        that.switchMenu[0].addEventListener('click', function(e){
-            e.stopPropagation();
-            e.preventDefault();  
-            if(navigation.classList.contains("hidden")){
-                that.setElementVisibility(navigation, true);
-                that.content.classList.add("small");
-                this.classList.add("close");
-            } else {
-                that.setElementVisibility(navigation, false);
-                that.content.classList.remove("small");
-                this.classList.remove("close");               
-            }
-        });
+        if(that.navigation[0] !== undefined){
+            let navigation = that.navigation[0];
+            that.switchMenu[0].addEventListener('click', function(e){
+                e.stopPropagation();
+                e.preventDefault();  
+                if(navigation.classList.contains("hidden")){
+                    that.setElementVisibility(navigation, true);
+                    that.content.classList.add("small");
+                    this.classList.add("close");
+                } else {
+                    that.setElementVisibility(navigation, false);
+                    that.content.classList.remove("small");
+                    this.classList.remove("close");               
+                }
+            });
+        }
     };
 
     setStateNavigation = function(page){
@@ -97,16 +99,17 @@ class Slide {
             callback.call(scope, i, array[i]); // passes back stuff we need
           }
         };
+        if(that.navigation[0] !== undefined){
+            // Usage:
+            // optionally change the scope as final parameter too, like ECMA5
+            var linksList = that.navigation[0].querySelectorAll('ul')[0].getElementsByTagName("a");
+            forEachNav(linksList, function (index, value) {
+                value.setAttribute("class","");            
+            });
 
-        // Usage:
-        // optionally change the scope as final parameter too, like ECMA5
-        var linksList = that.navigation[0].querySelectorAll('ul')[0].getElementsByTagName("a");
-        forEachNav(linksList, function (index, value) {
-            value.setAttribute("class","");            
-        });
-
-        if(linksList.length > 0){
-            linksList[page].setAttribute("class","active");
+            if(linksList.length > 0){
+                linksList[page].setAttribute("class","active");
+            }
         }
     };
 
@@ -285,27 +288,29 @@ class Slide {
     setNavMenu = function(content){
         let that = this;
         let nbElements = content.length;
-        that.setElementVisibility(that.navigation[0], false);
-        that.navigation[0].innerHTML="";
-        var ul = document.createElement("UL");
-        that.navigation[0].appendChild(ul);
-        let i = 0;
-               
-        for (var element = 0, l = nbElements; element < l; element++) {
-            var textnode = document.createTextNode(content[element].titrePage);              
-            var li = document.createElement("LI");                 
-            var a = document.createElement("A");      
-            a.appendChild(textnode);                      
-            that.navigation[0].querySelectorAll('ul')[0].appendChild(li).appendChild(a);          
-            a.setAttribute("href", content[element].url);
-            a.setAttribute("class","");
+        if(that.navigation[0] !== undefined){
+            that.setElementVisibility(that.navigation[0], false);
+            that.navigation[0].innerHTML="";
+            var ul = document.createElement("UL");
+            that.navigation[0].appendChild(ul);
+            let i = 0;
+                   
+            for (var element = 0, l = nbElements; element < l; element++) {
+                var textnode = document.createTextNode(content[element].titrePage);              
+                var li = document.createElement("LI");                 
+                var a = document.createElement("A");      
+                a.appendChild(textnode);                      
+                that.navigation[0].querySelectorAll('ul')[0].appendChild(li).appendChild(a);          
+                a.setAttribute("href", content[element].url);
+                a.setAttribute("class","");
 
-            if(element === that.pageActive){
-                a.setAttribute("class","active");
-            }
-            that.bindNavigation(a, i);
-        i++;
-        };
+                if(element === that.pageActive){
+                    a.setAttribute("class","active");
+                }
+                that.bindNavigation(a, i);
+            i++;
+            };
+        }
     };
 
     display = function(element){
