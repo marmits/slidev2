@@ -1,4 +1,4 @@
 RewriteEngine on
 
 RewriteCond %{REQUEST_URI} !/index.html|.php|.(js|ico|gif|jpg|svg|png|css|swf|eot|svg|ttf|woff|woff2|pdf|txt|json|xml|doc|html|zip|vcf|xml|htc|htm|map|scss)$
-RewriteRule $ /slidev2/index.html?request=%{REQUEST_URI} [R=302,L]
+RewriteRule $ /slidev2-1.0.5/index.html?request=%{REQUEST_URI} [R=302,L]
