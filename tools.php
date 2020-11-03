@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Paris');
 require_once('simple_html_dom.php');
 
+
 Class Data
 {
 	private $path;

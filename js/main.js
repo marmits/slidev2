@@ -18,7 +18,31 @@ class Slide {
         this.contenu = [];  
         this.directories = [];  
         this.auteur = "Auteur: Geoffroy Stolaric";   
+
+        this.debug = function(){   
+            console.group('Contexte application');
+            this.ajaxInfos(this.urlInfos)
+            .then((value) => {                 
+                let dossiers = "";
+                let result = "";
+                for (var i = 0; i < this.directories.length; i++) {
+                    dossiers += this.directories[i].titrePage + ", ";
+                    if(i === (this.directories.length - 1)){
+                        dossiers += this.directories[i].titrePage;
+                    }
+                }
+                result = "Répertoire des données: " + value.pathDir + "\n";                
+                result += "dossiers/pages: " + dossiers + "\n";
+                result += "page active(indice): " + this.pageActive + "\n";
+                result += "page active: " + this.directories[this.pageActive].titrePage + "\n";
+                result +=  this.auteur + "\n";
+                console.log(result);                             
+                console.groupEnd();
+            });            
+        };
     };
+
+    
 
     create = function (nom){
         let that = this;
@@ -28,27 +52,13 @@ class Slide {
 
     bindTest = function (url = null){
         let that = this;
-        let results = [];
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();              
-            that.ajaxInfos(that.urlInfos)
-            .then((value) => {     
-                let dossiers = "";
-                for (var i = 0; i < that.directories.length; i++) {
-                    dossiers += that.directories[i].titrePage + ", ";
-                    if(i === (that.directories.length - 1)){
-                        dossiers += that.directories[i].titrePage;
-                    }
-                }
-                let result = "Répertoire des données: " + value.pathDir + "\n";                
-                result += "dossiers/pages: " + dossiers + "\n";
-                result += "page active indice N°:" + that.pageActive + "\n";
-                result += "page active: " + that.directories[that.pageActive].titrePage + "\n";
-                result +=  that.auteur + "\n";
-                console.log(result);    
-            });            
-        });   
+            that.debug();          
+        });
+        
+
     };
 
     setElementVisibility = function(element,visible){
@@ -396,7 +406,13 @@ class Slide {
     };
 };
 
+
 const slideLuiggi = new Slide();
 if(slideLuiggi !== undefined){
-     slideLuiggi.create("Luiggi's Slide");    
+    slideLuiggi.create("Luiggi's Slide");    
+    function debug(){
+        slideLuiggi.debug();
+    }
+
+    
 };
