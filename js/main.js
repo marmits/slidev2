@@ -293,20 +293,22 @@ class Slide {
     };
 
     display = function(element){
+        console.log(element);
         let that = this;
         document.title = window.history.state.title;       
         that.setElementVisibility(that.paginationButtons[0], true);
         that.setElementVisibility(that.paginationButtons[1], true);
 
         if(that.pageActive === 0){
-            that.setElementVisibility(that.paginationButtons[0], false);
-            that.paginationButtons[1].setAttribute("href",that.directories[that.pageActive+1].url);
-        } 
-        if(that.pageActive === (that.directories.length - 1)){
-            that.setElementVisibility(that.paginationButtons[1], false);
+            that.setElementVisibility(that.paginationButtons[0], false);            
+        } else {
             that.paginationButtons[0].setAttribute("href",that.directories[that.pageActive-1].url);
-        }   
-
+        }
+        if(that.pageActive === (that.directories.length - 1)){
+            that.setElementVisibility(that.paginationButtons[1], false);            
+        } else {
+            that.paginationButtons[1].setAttribute("href",that.directories[that.pageActive+1].url);
+        }            
         that.setSlide(that.pageActive);                           
         that.setStateNavigation(that.pageActive);
     };
