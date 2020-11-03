@@ -1,6 +1,6 @@
 # *** slidev2 AJAX DIRECTORIES *** callback promise -> slidev2-1.0.5 
 
-[lidev2-1.0.5](https://github.com/marmits/slidev2/archive/v1.0.5.zip)
+[slidev2-1.0.5](https://github.com/marmits/slidev2/archive/v1.0.5.zip)
 
 slide pure javascript version serveur
 - gère le history.state
