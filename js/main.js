@@ -119,17 +119,13 @@ class Slide {
                     let datas = [];
                     let status = xhr.status;
                     let obj = JSON.parse(JSON.stringify(xhr.response));
-
                     for (var element = 0, l = obj.length; element < l; element++) {
-
                         let infos = {};
                         let titrePage = obj[element];
                         infos.titrePage = titrePage;
                         infos.url = titrePage;
-                        datas[element] = infos;
-                        
-                    };
-
+                        datas[element] = infos;                        
+                    };                    
                     resolve(datas);
                 }
             };
