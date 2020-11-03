@@ -66,10 +66,13 @@ Class Data
 		$path = $this->datasDir;
 		if($dp = opendir($path)){
 			$i=0;
+
 			while (false !== ($file = readdir($dp))){
+				
 				if ($file != '.' && $file != '..'){	
-					//var_dump($this->datasDir.$file);
+					
 					if(is_dir($this->datasDir.$file)){
+
 						$this->listDir[$i]=$file;
 						$i++;
 					}
@@ -108,6 +111,19 @@ Class Data
 		$h1 = $html->find('h1', 0)->innertext;	
 		$fileName = pathinfo($this->getPath().$file, PATHINFO_FILENAME);
 		$records = array("file"  => $path.$file,"titrePage"  => $h1, "content" => $layout, "fileName" => $fileName);
+		return $records;
+	}
+
+	function extractContentLight($path, $file){
+		$records = [];
+		$doc1 = new DOMDocument();
+		$contentFile = $this->readFile($path.$file);
+		$doc1->loadHTML($contentFile);
+		$htmlRecup = $doc1->saveHTML();
+		$layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $htmlRecup);
+
+		$fileName = pathinfo($this->getPath().$file, PATHINFO_FILENAME);
+		$records = array("file"  => $path.$file, "content" => $layout, "fileName" => $fileName);
 		return $records;
 	}
 

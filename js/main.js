@@ -236,7 +236,7 @@ class Slide {
     setDatas = function(element){
         let that = this;
 
-        that.pageActive = element;
+        that.pageActive = element;        
         let titleSlide = that.directories[element].titrePage;
         let urlSlide = that.directories[element].url;    
         
@@ -261,9 +261,7 @@ class Slide {
             div.innerHTML = content[0].content;
             that.setElementVisibility(div, false);
             that.content.appendChild(div);       
-            div.setAttribute("title", content[0].titrePage);
             div.setAttribute("class","rect");
-            div.setAttribute("url",content[0].fileName);
             that.setElementVisibility(div, true);
         }                
     };
@@ -362,7 +360,7 @@ class Slide {
        
         .then((datas) =>  {
             that.directories = datas;
-            return that.ajaxInfos(that.urlDir)
+            return that.ajaxInfos(that.urlInfos)
             .then((value) => {
                 if(that.error(that.directories, value.pathDir).reponse === true){
                     alert(that.error(that.directories, value.pathDir).message);
@@ -374,13 +372,15 @@ class Slide {
             return that.getRequest(that.directories);
         })
         .then((element) =>  {   
-            that.setDatas(element);
-            that.setNavMenu(that.directories);
-            that.display(element);
-            that.bindPagination(element);
-            that.navHistory();
-            that.bindSwitchMenu();
-            that.bindTest(that.urlDir);
+            if(that.directories.length != 0){
+                that.setDatas(element);
+                that.setNavMenu(that.directories);
+                that.display(element);
+                that.bindPagination(element);
+                that.navHistory();
+                that.bindSwitchMenu();
+                that.bindTest(that.urlDir);
+            }
         });        
     };
 };
