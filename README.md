@@ -1,4 +1,4 @@
-# *** TESTING ***  slidev2 AJAX DIRECTORIES 
+# *** TESTING ***  slidev2 AJAX DIRECTORIES callback promise 
 slide pure javascript version serveur
 - gère le history.state
 - navigation par menu et pagination
