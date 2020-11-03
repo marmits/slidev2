@@ -29,10 +29,9 @@ class Slide {
         that.testajax[0].addEventListener('click', function(e){
             e.stopPropagation();
             e.preventDefault();      
-            that.ajaxDirectories(url, getDirectories);
-            function getDirectories(content, Slide){
-                console.log(content);
-            }
+            console.log(that.directories);
+            console.log(that.pageActive);
+            
         });   
     };
 
@@ -392,6 +391,7 @@ class Slide {
             that.bindPagination(element);
             that.navHistory();
             that.bindSwitchMenu();
+            that.bindTest(that.urlDir);
         });
 
         
