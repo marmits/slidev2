@@ -250,13 +250,8 @@ class Slide {
     setSlide = function(page){
         let that = this;
         let nbElements = that.directories.length; 
-        
-
         that.ajaxFile("tools.php?param=liste_file&file="+that.directories[page].url, getHtml);
-        
         function getHtml(content, Slide){ 
-            
-            
             that.content.innerHTML="";                            
             var div = document.createElement("DIV");     
             div.innerHTML = content[0].content;
@@ -363,17 +358,15 @@ class Slide {
        
         .then((datas) =>  {
             that.directories = datas;
-            return that.ajaxInfos(that.urlInfos)
-            .then((value) => {
-                if(that.error(that.directories, value.pathDir).reponse === true){
-                    alert(that.error(that.directories, value.pathDir).message);
-                    return;
-                } 
-            });
+            return that.ajaxInfos(that.urlInfos)            
         })
-        .then((request) =>  {
-            return that.getRequest(that.directories);
-        })
+        .then((value) => {
+            if(that.error(that.directories, value.pathDir).reponse === true){
+                alert(that.error(that.directories, value.pathDir).message);
+                return;
+            } 
+            return that.getRequest( that.directories);
+        })        
         .then((element) =>  {   
             if(that.directories.length != 0){
                 that.setDatas(element);
@@ -391,6 +384,4 @@ class Slide {
 const slideLuiggi = new Slide();
 if(slideLuiggi !== undefined){
      slideLuiggi.create("Luiggi's Slide");    
-}
-
-
+};
