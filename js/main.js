@@ -7,6 +7,8 @@ class Slide {
         this.pageActive = 0;
         this.content = document.getElementById('content');
         this.switchMenu = document.querySelectorAll('a.switch');
+        this.pagination = document.querySelectorAll('div.pagination');
+        this.footer = document.querySelectorAll('div.footer');
         this.paginationButtons = document.querySelectorAll('.pagination ul li a');
         this.navigation = document.querySelectorAll('.navigation');
         this.testajax = document.querySelectorAll('a.testajax');
@@ -224,7 +226,7 @@ class Slide {
         let searchParams = new URLSearchParams(queryString);
         let pageRequest = null;
         let pages = [];
-        var depart = 0;
+        var depart = 0;        
         var res = new Promise(function (resolve, reject) {
             if(searchParams.has("request") === true){
                 pageRequest = searchParams.get("request").split("/")[2];    
@@ -288,13 +290,20 @@ class Slide {
     setNavMenu = function(content){
         let that = this;
         let nbElements = content.length;
+        that.setElementVisibility(that.switchMenu[0], false);
+        that.setElementVisibility(that.navigation[0], false);
+        that.content.classList.add("whitoutNav");
+        that.pagination[0].classList.add("whitoutNav");
+        that.footer[0].classList.add("whitoutNav");        
         if(that.navigation[0] !== undefined){
-            that.setElementVisibility(that.navigation[0], false);
+            that.setElementVisibility(that.switchMenu[0], true);
+            that.content.classList.remove("whitoutNav");
+            that.pagination[0].classList.remove("whitoutNav");         
+            that.footer[0].classList.remove("whitoutNav");
             that.navigation[0].innerHTML="";
             var ul = document.createElement("UL");
             that.navigation[0].appendChild(ul);
-            let i = 0;
-                   
+            let i = 0;            console.log("dsd");            
             for (var element = 0, l = nbElements; element < l; element++) {
                 var textnode = document.createTextNode(content[element].titrePage);              
                 var li = document.createElement("LI");                 
@@ -376,11 +385,10 @@ class Slide {
     
     init = function(){
         let that = this;
-        let depart = 0;
-        
+        let depart = 0;        
         that.ajaxDirectories(that.urlDir)       
         .then((datas) =>  {
-            that.directories = datas;
+            that.directories = datas;            
             return that.ajaxInfos(that.urlInfos);
         })
         .then((value) => {
@@ -390,7 +398,7 @@ class Slide {
             } 
             return that.getRequest( that.directories);
         })        
-        .then((element) =>  {   
+        .then((element) =>  {               
             if(that.directories.length != 0){
                 that.setDatas(element);
                 that.setNavMenu(that.directories);
