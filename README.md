@@ -14,4 +14,4 @@ slide pure javascript version serveur
 
 # notices 
 - Javascript, Sass, Html
-- dans le html, ne pas placer de balises ```<a>``` dans la navigation ul > li
+- (branch master) dans le html, ne pas placer de balises ```<a>``` dans la navigation ul > li
