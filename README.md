@@ -1,7 +1,7 @@
 # slidev2 -> slidev2-1.0.3 
-[slidev2-1.1.0](https://github.com/marmits/slidev2/archive/v1.1.0.zip) -> [branch ajaxDirectory](https://github.com/marmits/slidev2/tree/ajaxDirectory)
-[slidev2-1.0.4](https://github.com/marmits/slidev2/archive/v1.0.4.zip) -> [branch ajaxfiles](https://github.com/marmits/slidev2/tree/ajaxfiles)
-[slidev2-1.0.3](https://github.com/marmits/slidev2/archive/v1.0.3.zip) -> [branch master](https://github.com/marmits/slidev2/tree/master)
+[slidev2-1.1.0](https://github.com/marmits/slidev2/archive/v1.1.0.zip) -> [branch ajaxDirectory](https://github.com/marmits/slidev2/tree/ajaxDirectory)  
+[slidev2-1.0.4](https://github.com/marmits/slidev2/archive/v1.0.4.zip) -> [branch ajaxfiles](https://github.com/marmits/slidev2/tree/ajaxfiles)  
+[slidev2-1.0.3](https://github.com/marmits/slidev2/archive/v1.0.3.zip) -> [branch master](https://github.com/marmits/slidev2/tree/master)  
 
 
 slide pure javascript version serveur
