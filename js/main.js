@@ -303,7 +303,7 @@ class Slide {
             that.navigation[0].innerHTML="";
             var ul = document.createElement("UL");
             that.navigation[0].appendChild(ul);
-            let i = 0;            console.log("dsd");            
+            let i = 0;
             for (var element = 0, l = nbElements; element < l; element++) {
                 var textnode = document.createTextNode(content[element].titrePage);              
                 var li = document.createElement("LI");                 
