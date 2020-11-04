@@ -45,6 +45,9 @@ a.switch{
   text-decoration: none;
   text-transform: uppercase;
   text-align: left;
+  &.hidden{
+    display:none;
+  }
   @media #{$medium-and-down} {
     left:calc(50% - 1.5em);
     font-size: 1.5em;
@@ -115,13 +118,17 @@ div.container{
       position:relative;
       text-align: center;  
       width: calc(100% - 20em);
-      margin: 2em 0 auto 15em;
+      margin: 2em 0 auto 15em;      
       @media #{$medium-and-down} {
         width: calc(100% - 10em);
         margin: 2em 0 auto 5em;
       }
     }
     div#content{
+      &.whitoutNav{
+        width: calc(100% - 5em);
+        margin: 2em 0 auto 2.5em;
+      }      
       @media #{$medium-and-down} {
         margin: 6em 0 auto 5em;
         &.small{
@@ -169,7 +176,11 @@ div.container{
       }
     }
     div.pagination{
-      height:2.5em;      
+      height:2.5em;
+      &.whitoutNav{
+        margin: 1em 0 1em 2.5em;
+        width: calc(100% - 5em);
+      }        
       ul{
         padding:0;
         li{
@@ -196,6 +207,9 @@ div.container{
     div.footer{
       position:relative;
       color:$color-link-active;
+      &.whitoutNav{
+        margin: 1em 0 1em 2.5em;
+      }
       a{
         font-style: italic;
         color:$color-link-active;
