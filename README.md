@@ -12,7 +12,7 @@ slide pure javascript version serveur
 
 # instructions
 - copier le répertoire dans répertoire du serveur
-- fichier htaccess avec le même chemin depuis la racine dans le RewriteRule
+- fichier htaccess avec le nom du répertoire de l'appli dans le RewriteRule
 
 # notices 
 Javascript, Sass, Html, Php
