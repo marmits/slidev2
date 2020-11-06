@@ -1,0 +1,29 @@
+{
+  "name": "slidev2",
+  "version": "1.0.0",
+  "description": "slide pure javascript version serveur\r gère le history.state",
+  "main": "index.js",
+  "dependencies": {
+    "grunt-sass": "^3.1.0",
+    "node-sass": "^4.14.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.3.0",
+    "grunt-contrib-sass": "^2.0.0",
+    "grunt-contrib-watch": "*",
+    "sass": "^1.27.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marmits/slidev2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marmits/slidev2/issues"
+  },
+  "homepage": "https://github.com/marmits/slidev2#readme"
+}
