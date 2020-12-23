@@ -1,5 +1,6 @@
 <?php
-set_include_path($_SERVER["DOCUMENT_ROOT"].'/slidev2/');
+$slide = '/'.basename(__dir__).'/';
+set_include_path($_SERVER["DOCUMENT_ROOT"].$slide);
 
 error_reporting(E_ALL|E_STRICT);
 ini_set('display_errors', 1);
